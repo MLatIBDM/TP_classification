@@ -1,4 +1,4 @@
-# TP_classification
+# Machine Learning courses : Image classification
 
 Welcome to the Deep Learning practical course !
 
