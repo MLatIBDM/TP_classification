@@ -30,15 +30,18 @@ or by playing with their [tutorials](https://mxnet.incubator.apache.org/tutorial
 ![Panel](https://github.com/MLatIBDM/TP_classification/blob/master/images/panel.jpg)
 <center>Image examples and their corresponding category: </center>
 <br>
+Check by yourself ! All the images are already well classified into the four categories into 
+<code>/home/mxnet/TP_classification/DATA/1354.nd2</code> and <br>
+<code>/home/mxnet/TP_classification/DATA/1354-001.nd2</code> <br>
+ 
+These repositories contains 1 directory by image category:  <br>
+<code>/home/mxnet/TP_classification/DATA/1354.nd2/1cell/</code>  <br>
+<code>/home/mxnet/TP_classification/DATA/1354.nd2/2cell/</code>  <br>
+<code>/home/mxnet/TP_classification/DATA/1354.nd2/groups/</code>  <br>
+<code>/home/mxnet/TP_classification/DATA/1354.nd2/rien/</code> <br>
 
-You can check by yourself all the images already well classified into the four categories into 
-<code>/home/mxnet/TP_classification/DATA/ folder:</code>
+ <br>
 
-Open a terminal (Ctrl+Shift+t) and type:
-
-```bash
-$ cd /home/mxnet/TP_classification/DATA/
-```
 
 
 
