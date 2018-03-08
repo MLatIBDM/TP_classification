@@ -26,7 +26,7 @@ or by playing with their [tutorials](https://mxnet.incubator.apache.org/tutorial
 
 **Aim** : Build and Train a classification model which will learn to discriminate a set of bacteria images into four different categories.
 
-### Data
+### Load, explore, reshape, normalize and format the Data for Training !
 ![Panel](https://github.com/MLatIBDM/TP_classification/blob/master/images/panel.jpg)
 <center>Image examples and their corresponding category: </center>
 <br>
@@ -90,12 +90,50 @@ You can go further and display the total repartition of the images by labels:
 ```R
 table(mydata_orig$labels)
 ```
-Check that you have the same repartition :: <br>
-
+You should have the same as below repartition: <br>
 Labels | #Images
 --- | ---
 0 | 294
 1 | 106
 2 | 131
 3 | 143
+
+But unfortunately, the data are not ready to be used for **Training** yet !
+As you may be noticed the image __Width__ and __Height__ are not uniformized :
+```R
+width(mydata_orig$images[[1]])
+width(mydata_orig$images[[2]])
+height(mydata_orig$images[[1]])
+height(mydata_orig$images[[2]])
+```
+The size need to be consistent for every images so as to be processed by our futur classification model, so that we need to reshape all images to a given size.
+**Warning:** Choosing an arbitrary too big or too small size will impact significantly our model in both term of prediction accuracy or memory, training time and CPU usage ! So choose wisely if you want to play with this parameter.
+A Good compromize is too start with a "rather" small image size like 32 pixels Width anf 32 pixels Height.
+
+```R
+input_image_size = c(32,32,1)
+```
+The last value is set to "1" because all images have only one colour channel. In the case of RGB, you would have use "3" for example.
+
+Let's do the reshape but before let's make a backup of the original data structure:
+```R
+mydata <- mydata_orig
+mydata <- mmx.reshapeDataImages(mydata,input_image_size)
+```
+But it's not finished :) !
+
+Before doing any **Training** we have now to normalize the pixel intensity values of each images. It exists several way to do it and one which works pretty well is done by something called [Z-Score normalisation](https://en.wikipedia.org/wiki/Standard_score).
+
+```R
+mydata <- mmx.normalizeDataImages(mydata)
+```
+
+
+
+
+
+
+
+
+
 
