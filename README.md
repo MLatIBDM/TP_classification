@@ -6,14 +6,14 @@ Welcome to the Machine Learning practical course !
 ## Import Virtual box prebuilt Ubuntu 16-04 machine and Start Rstudio !
 
 For those who don't have already downloaded Virtual box, please download :<br>
---* [Virtual box]("https://www.virtualbox.org/")
---* Activate Virtualization into the BIOS (in case it's not already done)
---* Download the virtual machine from [here]()
---* Import the virtual machine from <a href="_blank">here</a>
---* Start the machine (login::password / mxnet::mxnet)
+- [Virtual box]("https://www.virtualbox.org/")
+- Activate Virtualization into the BIOS (in case it's not already done)
+- Download the virtual machine from [here]()
+- Import the virtual machine into Virtual box (RAM ? Disk space ? ...)
+- Start the machine (login::password / mxnet::mxnet)
 
 The machine comes with R, Rstudio and MXNet already installed and properly configured to work with R. 
-Sublime text editor is also set up to edit and code the needed scripts for this practical course.
+Sublime text editor is also set up in case to edit and code needed scripts for this practical course.
 
 OK ! Now that you are logged into the virtual machine, you are ready to Go ! :)
 
@@ -36,6 +36,7 @@ or by playing with their [tutorials](https://mxnet.incubator.apache.org/tutorial
 
 # The problem
 ## Build and Train a classification model able to discriminate a set of bacteria images into four categories
+
 
 
 
