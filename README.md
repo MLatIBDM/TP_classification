@@ -17,14 +17,17 @@ Welcome to the Deep Learning practical course !
 <b> Output data </b>
 - 4 Classes: 1-cell, 2-cell, more-than-2cell, not-a-bacterua
 
-<h1> Setup your working environment: Import Virtual box prebuilt machine and Start Rstudio !</h1>
+<h1> Setup your working environment: Import Virtual box prebuilt Ubuntu 16-04 machine and Start Rstudio !</h1>
 For those who don't have already downloaded Virtual box, please download :<br>
 <li> <a href="https://www.virtualbox.org/"> Virtual box </a></li>
-<li> Activate Virtualization into the BIOS (in case it's not lready done)</li>
+<li> Activate Virtualization into the BIOS (in case it's not already done)</li>
 <li> Import the virtual machine from <a href="_blank">here</a> </li>
 <li Start the machine (login::password / mxnet::mxnet)</li>
 
-Now, you are logged into the virtual machine and ready to start the work :)
+The machine comes with R, Rstudio and MXNet already installed and properly configured to work with R. 
+Sublime text editor is also set up to edit and code the needed scripts for this practical course.
+
+OK ! Now that you are logged into the virtual machine, you are ready to Go ! :)
 
 Open a terminal (Ctrl+Shift+t) and type: <br>
 
@@ -36,4 +39,11 @@ Once Rstudio is loaded : check MXNet is ready to work by loading it into the R W
 > library(mxnet)
 ```
 
-<h1> Exercice 1 : </h1>
+<h1> MXNet Framework </h1>
+
+MXNet is one of the most popular Deep Learning framework. It's available into different programming languages (R, Pyhton, ...) and can handle both working with CPU and GPU. 
+
+
+
+
+
