@@ -1,23 +1,9 @@
-# Machine Learning courses : Image classification
+# Machine Learning courses : Image classification using MXNet framework for R 
 
-Welcome to the Deep Learning practical course !
+Welcome to the Machine Learning practical course !
 
-<b>Goals:</b><br>
-- Be familiar with basic operation using MXNet-R framework
-- Play with different deep learning model architectures
-- Be aware of important steps involved during training process
-- Quantify the models accuracy
+# First : Setup your working environment: Import Virtual box prebuilt Ubuntu 16-04 machine and Start Rstudio !
 
-<b> Toy problem: </b>
-- During this practical course you will build a model which will learn to classify bacteria images into distinct classes.
-
-<b> Input data </b>
-- A set of bacteria images
-
-<b> Output data </b>
-- 4 Classes: 1-cell, 2-cell, more-than-2cell, not-a-bacterua
-
-<h1> Setup your working environment: Import Virtual box prebuilt Ubuntu 16-04 machine and Start Rstudio !</h1>
 For those who don't have already downloaded Virtual box, please download :<br>
 <li> <a href="https://www.virtualbox.org/"> Virtual box </a></li>
 <li> Activate Virtualization into the BIOS (in case it's not already done)</li>
@@ -39,11 +25,15 @@ Once Rstudio is loaded : check MXNet is ready to work by loading it into the R W
 > library(mxnet)
 ```
 
-<h1> MXNet Framework </h1>
+# MXNet Framework 
 
-MXNet is one of the most popular Deep Learning framework. It's available into different programming languages (R, Pyhton, ...) and can handle both working with CPU and GPU. 
+  MXNet is one of the most popular Deep Learning framework. It's available into different programming languages (R, Pyhton, ...) and can handle both working with CPU and GPU. 
+You'll find more information on the framework API [here](https://mxnet.incubator.apache.org/api/r/index.html)
+or visiting their [Github repository](https://github.com/apache/incubator-mxnet)
+or by playing with their [tutorials](https://mxnet.incubator.apache.org/tutorials/r/index.html)
 
-
+# The problem
+## Build and Train a classification model able to discriminate a set of bacteria images into four categories
 
 
 
