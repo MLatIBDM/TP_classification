@@ -30,33 +30,56 @@ or by playing with their [tutorials](https://mxnet.incubator.apache.org/tutorial
 ![Panel](https://github.com/MLatIBDM/TP_classification/blob/master/images/panel.jpg)
 <center>Image examples and their corresponding category: </center>
 <br>
-Check by yourself ! All the images are already well classified into the four categories into 
-<code>/home/mxnet/TP_classification/DATA/1354.nd2</code> and <br>
+Check by yourself ! All the images are already well classified into the four categories into <br>
+<code>/home/mxnet/TP_classification/DATA/1354.nd2</code> <br>
 <code>/home/mxnet/TP_classification/DATA/1354-001.nd2</code> <br>
  
 These repositories contains 1 directory by image category:  <br>
-<code>/home/mxnet/TP_classification/DATA/1354.nd2/1cell/</code>  <br>
-<code>/home/mxnet/TP_classification/DATA/1354.nd2/2cell/</code>  <br>
-<code>/home/mxnet/TP_classification/DATA/1354.nd2/groups/</code>  <br>
-<code>/home/mxnet/TP_classification/DATA/1354.nd2/rien/</code> <br>
+<code>1cell/</code>  <br>
+<code>2cell/</code>  <br>
+<code>groups/</code>  <br>
+<code>rien/</code> <br>
 
- <br>
+This data will be used for **Training** our model, but also to **Validate** and **Testing** it !
 
+OK now that you know a little bit more the data we will work with, just start RStudio and let's begin explore !
 
-
-
-
-
-
-
-## Play with main.R
 ```bash
 $ rstudio &
 ```
-Once Rstudio is loaded : check MXNet is ready to work by loading it into the R Wokspace
+- Once into Rstudio, just load the MXNet library by typing the following command into th RStudio console:
 ```R
-> library(mxnet)
+library(mxnet)
+```
+- Set up the working directory
+```R
+source_path = '/home/mxnet/TP/'
+setwd(source_path)
+````
+- For the purpose of this practical course, i've already written a bunch of usefull functions to handle data, training ... which will simplify our work today. In case you want to go deeper into this project, you should give a look at the file <code>/home/mxnet/TP/classification_functions.R</code> <br>
+
+Load this usefull functions file:
+```R
+source(paste(source_path,'classification_functions.R',sep=''))
+```
+We want know to tell to R where are our images:
+```R
+path_to_images = list(
+                      '/home/mxnet/TP/DATA/1354-nd2',
+                      '/home/mxnet/TP/DATA/1354-001-nd2'
+                      )
 ```
 
+
+
+
+
+
+
+
+Check image categories
+```R
+> table(mydata_orig$labels)
+```
 
 
