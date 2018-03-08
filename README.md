@@ -17,14 +17,14 @@ Welcome to the Deep Learning practical course !
 <b> Output data </b>
 - 4 Classes: 1-cell, 2-cell, more-than-2cell, not-a-bacterua
 
-<h1> Step 1: Import Virtual box prebuilt machine </h1>
+<h1> Setup your working environment: Import Virtual box prebuilt machine and Start Rstudio !</h1>
 For those who don't have already downloaded Virtual box, please download :<br>
 <li> <a href="https://www.virtualbox.org/"> Virtual box </a></li>
 <li> Activate Virtualization into the BIOS (in case it's not lready done)</li>
 <li> Import the virtual machine from <a href="_blank">here</a> </li>
 <li Start the machine (login::password / mxnet::mxnet)</li>
 
-<h1> Step 2: Start Rstudio & check everything is running </h1>
+Now, you are logged into the virtual machine and ready to start the work :)
 
 Open a terminal (Ctrl+Shift+t) and type: <br>
 
