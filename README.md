@@ -91,15 +91,10 @@ You can go further and display the total repartition of the images by labels:
 table(mydata_orig$labels)
 ```
 Check that you have the same repartition :: <br>
+
 Labels | #Images
 --- | ---
 0 | 294
 1 | 106
 2 | 131
 3 | 143
-
-<br>
-
-Labels | #Images
---- | ---
-Seconds | 301
