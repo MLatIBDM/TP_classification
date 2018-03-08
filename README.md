@@ -95,12 +95,11 @@ You can go further and display the total repartition of the images by labels:
 table(mydata_orig$labels)
 ```
 As you noticed, the "label names" are numeric ! MXNet can only handle numeric label, so we need the conversion table.
-<code>
-  0 - 1cell
-  1 - 2cell
-  2 - Group
-  3 - Rien (nothing)
- </code>
+<code> 0 - 1cell</code>
+<code> 1 - 2cell</code>
+<code> 2 - Group</code>
+<code> 3 - Rien (nothing) </code>
+ 
 
 But unfortunately, the data are not ready to be used for **Training** yet !
 
