@@ -64,6 +64,8 @@ Load this usefull functions file:
 ```R
 source(paste(source_path,'classification_functions.R',sep=''))
 ```
+#### Load Data
+
 We want to tell to R where are our images and load it into the R workspace:
 ```R
 path_to_images = list(
@@ -73,6 +75,8 @@ path_to_images = list(
 mydata_orig <- mmx.readDataImages(path_to_images,'*.tif')
 ```
 <code>mydata_orig</code> is a structure (R List) which contains all images and their corresponding label.
+
+#### Explore Data
 
 If you want to display one given image, you need to load the **imager** library:
 
@@ -90,15 +94,18 @@ You can go further and display the total repartition of the images by labels:
 ```R
 table(mydata_orig$labels)
 ```
-You should have the same as below repartition: <br>
-Labels | #Images
---- | ---
-0 | 294
-1 | 106
-2 | 131
-3 | 143
+As you noticed, the "label names" are numeric ! MXNet can only handle numeric label, so we need the conversion table.
+<code>
+  0 - 1cell
+  1 - 2cell
+  2 - Group
+  3 - Rien (nothing)
+ </code>
 
 But unfortunately, the data are not ready to be used for **Training** yet !
+
+#### Reshape Data
+
 As you may be noticed the image __Width__ and __Height__ are not uniformized :
 ```R
 width(mydata_orig$images[[1]])
@@ -120,7 +127,9 @@ Let's do the reshape but before let's make a backup of the original data structu
 mydata <- mydata_orig
 mydata <- mmx.reshapeDataImages(mydata,input_image_size)
 ```
-But it's not finished :) !
+But it's not finished yet :) !
+
+#### Normalize Data
 
 Before doing any **Training** we have now to normalize the pixel intensity values of each images. It exists several way to do it and one which works pretty well is done by something called [Z-Score normalisation](https://en.wikipedia.org/wiki/Standard_score).
 
