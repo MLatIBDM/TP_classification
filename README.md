@@ -22,7 +22,7 @@ For those who don't have already downloaded Virtual box, please download :<br>
 <li> <a href="https://www.virtualbox.org/"> Virtual box </a></li>
 <li> Activate Virtualization into the BIOS (in case it's not lready done)</li>
 <li> Import the virtual machine from <a href="_blank">here</a> </li>
-<li Start the machine (login::password / mxnet::mxnet)
+<li Start the machine (login::password / mxnet::mxnet)</li>
 
 <h1> Step 2: Check everything is ready to go ! </h1>
 
