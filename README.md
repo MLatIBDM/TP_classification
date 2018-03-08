@@ -94,11 +94,11 @@ You can go further and display the total repartition of the images by labels:
 ```R
 table(mydata_orig$labels)
 ```
-As you noticed, the "label names" are numeric ! MXNet can only handle numeric label, so we need the conversion table.
-<code> 0 - 1cell</code>
-<code> 1 - 2cell</code>
-<code> 2 - Group</code>
-<code> 3 - Rien (nothing) </code>
+As you noticed, the "label names" are numeric ! MXNet can only handle numeric label, so we need the conversion table: <br>
+<code> 0 - 1cell</code> <br>
+<code> 1 - 2cell</code> <br>
+<code> 2 - Group</code> <br>
+<code> 3 - Rien (nothing) </code> <br>
  
 
 But unfortunately, the data are not ready to be used for **Training** yet !
