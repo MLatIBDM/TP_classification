@@ -72,21 +72,32 @@ path_to_images = list(
                       )
 mydata_orig <- mmx.readDataImages(path_to_images,'*.tif')
 ```
+<code>mydata_orig</code> is a structure (R List) which contains all images and their corresponding label.
 
+If you want to display one given image, you need to load the **imager** library:
 
-
-
-
-
-
-
-
-
-
-
-Check image categories
 ```R
-> table(mydata_orig$labels)
+library(imager)
+````
+and then display for example the image number 1 and its corresponding label:
+
+```R
+plot (mydata_orig$images[[1]])
+mydata_orig$labels[1]
 ```
+
+You can go further and display the total repartition of the images by labels:
+```R
+table(mydata_orig$labels)
+```
+Check that you have the same repartition :: <br>
+| Labels | #Images |
+| --- | --- |
+| 0 | 294 |
+| 1 | 106 |
+| 2 | 131 |
+| 3 | 143 |
+
+<br>
 
 
