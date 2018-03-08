@@ -22,10 +22,9 @@ For those who don't have already downloaded Virtual box, please download :<br>
 <li> <a href="https://www.virtualbox.org/"> Virtual box </a></li>
 <li> Activate Virtualization into the BIOS (in case it's not lready done)</li>
 <li> Import the virtual machine from <a href="_blank">here</a> </li>
+<li Start the machine (login::password / mxnet::mxnet)
 
-Once it's done, you must start the machine (login::password / mxnet::mxnet)
-
-<h1> Step 2: Start RStudio from Docker instance into the machine </h1>
+<h1> Step 2: Check everything is ready to go ! </h1>
 
 Open a terminal (Ctrl+Shift+t) and type: <br>
 
