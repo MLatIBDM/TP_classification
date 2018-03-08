@@ -2,7 +2,8 @@
 
 Welcome to the Machine Learning practical course !
 
-# First : Setup your working environment: Import Virtual box prebuilt Ubuntu 16-04 machine and Start Rstudio !
+# Setup your working environment
+## Import Virtual box prebuilt Ubuntu 16-04 machine and Start Rstudio !
 
 For those who don't have already downloaded Virtual box, please download :<br>
 <li> <a href="https://www.virtualbox.org/"> Virtual box </a></li>
