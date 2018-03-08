@@ -26,7 +26,7 @@ or by playing with their [tutorials](https://mxnet.incubator.apache.org/tutorial
 
 **Aim** : Build and Train a classification model which will learn to discriminate a set of bacteria images into four different categories.
 
-### Load, explore, reshape, normalize and format the Data for Training !
+### Load, explore, reshape, normalize resample and format the Data for Training !
 ![Panel](https://github.com/MLatIBDM/TP_classification/blob/master/images/panel.jpg)
 <center>Image examples and their corresponding category: </center>
 <br>
@@ -135,6 +135,10 @@ Before doing any **Training** we have now to normalize the pixel intensity value
 ```R
 mydata <- mmx.normalizeDataImages(mydata)
 ```
+
+#### Resample Data
+
+One of the first main **issue** of bad accuracy result during **training** is due to the fact that the data are not randomly shuffled.
 
 
 
