@@ -47,28 +47,35 @@ OK now that you know a little bit more the data we will work with, just start RS
 ```bash
 $ rstudio &
 ```
-- Once into Rstudio, just load the MXNet library by typing the following command into th RStudio console:
+Once into Rstudio, just load the MXNet library by typing the following command into th RStudio console:
 ```R
 library(mxnet)
 ```
-- Set up the working directory
+Set up the working directory
 ```R
 source_path = '/home/mxnet/TP/'
 setwd(source_path)
 ````
-- For the purpose of this practical course, i've already written a bunch of usefull functions to handle data, training ... which will simplify our work today. In case you want to go deeper into this project, you should give a look at the file <code>/home/mxnet/TP/classification_functions.R</code> <br>
+For the purpose of this practical course, i've already written a bunch of usefull functions to handle data, training ... which will simplify our work today. 
+**Hint:** To differentiate these functions from MXNet functions, the name of every one start with the prefix <code>mmx.</code>
+In case you want to go deeper into this project, you should give a look at the file <code>/home/mxnet/TP/classification_functions.R</code> <br>
 
 Load this usefull functions file:
 ```R
 source(paste(source_path,'classification_functions.R',sep=''))
 ```
-We want know to tell to R where are our images:
+We want to tell to R where are our images and load it into the R workspace:
 ```R
 path_to_images = list(
                       '/home/mxnet/TP/DATA/1354-nd2',
                       '/home/mxnet/TP/DATA/1354-001-nd2'
                       )
+mydata_orig <- mmx.readDataImages(path_to_images,'*.tif')
 ```
+
+
+
+
 
 
 
