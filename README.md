@@ -15,18 +15,6 @@ For those who don't have already downloaded Virtual box, please download :<br>
 The machine comes with R, Rstudio and MXNet already installed and properly configured to work with R. 
 Sublime text editor is also set up in case to edit and code needed scripts for this practical course.
 
-OK ! Now that you are logged into the virtual machine, you are ready to Go ! :)
-
-Open a terminal (Ctrl+Shift+t) and type: <br>
-
-```bash
-$ rstudio &
-```
-Once Rstudio is loaded : check MXNet is ready to work by loading it into the R Wokspace
-```R
-> library(mxnet)
-```
-
 # MXNet Framework 
 
   MXNet is one of the most popular Deep Learning framework. It's available into different programming languages (R, Pyhton, ...) and can handle both working with CPU and GPU. 
@@ -34,12 +22,38 @@ You'll find more information on the framework API [here](https://mxnet.incubator
 or visiting their [Github repository](https://github.com/apache/incubator-mxnet)
 or by playing with their [tutorials](https://mxnet.incubator.apache.org/tutorials/r/index.html)
 
-# The problem
-## Build and Train a classification model able to discriminate a set of bacteria images into four categories
+# Let's Start !
 
-Inline-style: 
+**Aim** : Build and Train a classification model which will learn to discriminate a set of bacteria images into four different categories.
+
+### Data
 ![Panel](https://github.com/MLatIBDM/TP_classification/blob/master/images/panel.jpg)
+<center>Image examples and their corresponding category: </center>
+<br>
 
+You can check by yourself all the images already well classified into the four categories into 
+<code>/home/mxnet/TP_classification/DATA/ folder:</code>
+
+Open a terminal (Ctrl+Shift+t) and type:
+
+```bash
+$ cd /home/mxnet/TP_classification/DATA/
+```
+
+
+
+
+
+
+
+## Play with main.R
+```bash
+$ rstudio &
+```
+Once Rstudio is loaded : check MXNet is ready to work by loading it into the R Wokspace
+```R
+> library(mxnet)
+```
 
 
 
