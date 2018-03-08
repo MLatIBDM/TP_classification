@@ -24,18 +24,16 @@ For those who don't have already downloaded Virtual box, please download :<br>
 <li> Import the virtual machine from <a href="_blank">here</a> </li>
 <li Start the machine (login::password / mxnet::mxnet)</li>
 
-<h1> Step 2: Check everything is ready to go ! </h1>
+<h1> Step 2: Start Rstudio & check everything is running </h1>
 
 Open a terminal (Ctrl+Shift+t) and type: <br>
 
-Go to TP directory: <br>
-<code> cd ~/TP/ </code><br>
+```bash
+$ rstudio &
+```
+Once Rstudio is loaded : check MXNet is ready to work by loading it into the R Wokspace
+```R
+> library(mxnet)
+```
 
-Start the docker instance:<br>
-<code> sudo docker run -d -p 8787:8787 -v $(pwd):/home/TP/ f0nzie/rstudio-mxnet </code><br>
-
-Start Rstudio client:<br>
-<code> sudo firefox localhost:8787& </code><br>
-
-Use login::password / rstudio::rstudio, to login to the Rstudio server <br>
-
+<h1> Exercice 1 : </h1>
