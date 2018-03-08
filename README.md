@@ -38,7 +38,7 @@ or by playing with their [tutorials](https://mxnet.incubator.apache.org/tutorial
 ## Build and Train a classification model able to discriminate a set of bacteria images into four categories
 
 Inline-style: 
-![alt text](https://github.com/MLatIBDM/TP_classification/blob/master/roi%20117%20-%20114_1354-001.nd2%20-%20C%3D0.tif "1 Cell")
+![Panel](https://github.com/MLatIBDM/TP_classification/blob/master/images/panel.jpg)
 
 
 
