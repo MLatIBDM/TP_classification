@@ -237,7 +237,15 @@ graph.viz(net)
 ```
 We will see later on that MXNet provides a wide variety and more complex type of layer usefull for building more complex neural networks.
 
+But from now let's focus on an important step of our model building: the training parameters !
+
 # Training Parameters
+
+In order to achieve good prediction performance, we should take care of the training parameters because they are a really important and critical step.
+There is no "magic recipes" i can give you because it's an open research subject nowadays but we are going to highlight some important key to not fail the training.
+
+Play a little bit <a href="http://playground.tensorflow.org/" target="_blank">there</a> to measure the impact of training parameters on your training.
+
 
 
 
