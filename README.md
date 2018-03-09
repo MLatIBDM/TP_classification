@@ -139,6 +139,28 @@ mydata <- mmx.normalizeDataImages(mydata)
 #### Resample Data
 
 One of the first main **issue** of bad accuracy result during **training** is due to the fact that the data are not randomly shuffled.
+If you show your data in a non random order, your classifier will start to learn well for this class of data and will converge to their local minimum, but once you show other class it will fail to classify well because you will be stuck in one good local minimum for first data class and not a local minimum achieving a good local minimum for every class.
+
+```R
+mydata <- mmx.resampleDataImages(my_data)
+```
+You can check now that the label and images are randomly sampled.
+
+```R
+mydata$orig$labels
+```
+
+### Split Data into Training/Validation/Test set
+
+This step is essential to be sure your model is learning well and able to generalize. 
+We have to split our data into 3 distinct non overlapping set.
+ - One which will be use for **Training** our model, we call it **Trainin Set**.
+ - One for **Validation**. We will use this set to measure the model prediction accuracy at each steps of the learning.
+ **Warning:** This set do not contain any of **Training set** data ! If you a subset of image into **Validation Set** that are currently into the **Training Set**, your model will be greatly biased and you won't be able to know whether you model is able to generalize and/or **overfits** ! Moreover, whithout this set, when later on this practical course ,you'll **fine tune** the network hyperparameters, you won't be able to measure the impact of the generalization capability of your model. We will talk about that later.
+ - One for **Test**. Once your model has been trained and achieve a good accuracy on validation, we will use this set to measure the predictive capability of your network on a completely new set of data which has not been used for training nor hyperparameters __fine tuning__. This is important because the prediction accuracy on the test set should be very similar on future unlabelled data you'll present to your model.
+ 
+ **Important**: All three set should be __comparable__ in a sense that every one should contains the same proportion of data/class.
+ Otherwise your model will probably fail to achieve good prediction accuracies.
 
 
 
