@@ -268,12 +268,23 @@ As a general rule, taking 5% of the total training set size as __mini-batch__ si
 
 - **wd (weight decay):** : It's a linear regularization(L1 norm) or square regularization(L2 norm) used for adding a penalty to the network weights. More informations [here](https://en.wikipedia.org/wiki/Convolutional_neural_network#Weight_decay)
 
+#### Play Time !
+if you want to relax a little bit, you can use this amazing website coded by Google which gives you the opportunity to play with a lot of neural network parameters and architecture and see directly their impatc on the training process, a must-see ! [here](http://playground.tensorflow.org/)
+
+
+
+
+OK Now you know a little bit more about the main training parameters you can play with, let's go !!
+
+ ```R
+ 
+ ```
+
 
 
 
 
 **TO ADD SOMEWHERE**
-**Play a little bit <a href="http://playground.tensorflow.org/" target="_blank">there</a> to measure the impact of training parameters on your training.**
 
 
 
