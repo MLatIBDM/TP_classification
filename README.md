@@ -175,9 +175,32 @@ To start we could use this spliting shape: <br>
  
  ```R
  split_shape = c(60,30,10)
- mydata <- mmx.splitDataImages(mydata,split_shape,equalize=T)
+ mydata <- mmx.splitDataImages(mydata,split_shape,equalize=T,epsilon=0.008,maxiter=2000)
  ```
+ Now, your data are ready to be used for Training your model ! 
+ <code>mydata</code> is a stucture (R list) containing : Training/Validation/Set.
+ You can access to the different data set and labels like this:
+ ```R
+ #Training Set
+ mydata$train$images #For images
+ mydata$train$labels #For labels
  
+ #Validation Set
+ mydata$valid$images #For images
+ mydata$valid$labels #For labels
+ 
+ #Test Set
+ mydata$test$images #For images
+ mydata$test$labels #For labels
+  ```
+ 
+ Check that the repartion data/classes is consistent between the three set:
+ 
+ ```R
+ table(mydata$train$labels)/sum(table(mydata$train$labels))
+ table(mydata$valid$labels)/sum(table(mydata$valid$labels))
+ table(mydata$test$labels)/sum(table(mydata$test$labels))
+ ```
  
 
 
