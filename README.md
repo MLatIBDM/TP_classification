@@ -370,7 +370,7 @@ Let's check on the test data
 ```R
 mmx.evalOn(model,mydata$test)
 ```
-On my computer i achieve : 85% accuracy on test set which is more or less similar to the validation set.
+On my computer i achieve : 85% accuracy on test set which is more or less similar to the validation set ... we can do better ! :)
 
 > #### Let's play a bit with learning parameters
 > OK now, i let you play a little bit with the learning parameters to try to improve your numbers and achieve a better accuracy on both Validation and Test set.
