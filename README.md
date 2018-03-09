@@ -325,6 +325,8 @@ For regression we should use other metric suited for this kind of problems like 
 - the validation data <code>mydata$valid$array</code> and labels <code>mydata$valid$labels</code>
 - a callback function called at the end of each epoch to log the accuracy into our logger.
 
+Which gives :
+
 ```R
 
 model <- mx.model.FeedForward.create(
@@ -344,7 +346,22 @@ model <- mx.model.FeedForward.create(
                                       )
 ```
 
+At this point you should see your model trying to learn like this
+![train](https://github.com/MLatIBDM/TP_classification/blob/master/images/train.png)
 
+Normally, at the end of the 100 epochs, you should achieve more or less quickly a rather good prediction accuracy on Training set but not so good on validation set !
+
+On my computer, right now as i write this practical course, the network achieves at the end of the 100 epcohs:<br>
+- **97% accuracy on Training set**
+- **82% accuracy on Validation set**
+
+Check your logger to see more how your model has learnt :
+
+```R
+mmx.plotLogger(logger)
+```
+Here is the mine:
+![logger](https://github.com/MLatIBDM/TP_classification/blob/master/images/logger.png)
 
 
 
