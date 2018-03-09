@@ -470,6 +470,7 @@ path_to_images = list(
 > Try everyting you want: increase/decrease learning size, batch_size, epochs, weight_decay, momentum ...<br>
 > Add/remove layers, add/remove more neurons ... <br>
 > Change the Trainin/Validation/Test proportions ... <br>
+> Increase/decrease the image size ... <br>
 > So in some word: have fun, maybe you can crash your virtual machine, but try to improve and understand why ! :)<br>
 
 
