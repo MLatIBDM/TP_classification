@@ -266,19 +266,22 @@ As a general rule, taking 5% of the total training set size as __mini-batch__ si
 
 - **momentum:** : A momentum it's a kind of "trick" to avoid being stuck into local minimum during solution hyperspace exploration by SGD using the previous "velocity" to jump oustide local minima. See [here](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Momentum) for more clear explanation ;)
 
-- **wd (weight decay):** : It's a linear regularization(L1 norm) or square regularization(L2 norm) used for adding a penalty to the network weights. More informations [here](https://en.wikipedia.org/wiki/Convolutional_neural_network#Weight_decay)
+- **wd (weight decay):** : It regularization trick to add a penalty to the network weights at a given regularization rate (wd). More informations [here](https://en.wikipedia.org/wiki/Convolutional_neural_network#Weight_decay)
 
 #### Play Time !
 if you want to relax a little bit, you can use this amazing website coded by Google which gives you the opportunity to play with a lot of neural network parameters and architecture and see directly their impatc on the training process, a must-see ! [here](http://playground.tensorflow.org/)
 
-
-
-
 OK Now you know a little bit more about the main training parameters you can play with, let's go !!
 
  ```R
- 
- ```
+ num_round = 100 # Number of epochs
+ batch_size = 60 # the size of the mini-batch
+ learning_rate = 0.01 
+ momentum = 0.9
+ wd = 0.00001
+ initializer = mx.init.normal(0.1) #I choose to initialize with this arbitrary value because ... i don't know .. why not ? :)
+  ```
+
 
 
 
