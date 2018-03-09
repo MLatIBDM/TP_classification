@@ -346,7 +346,7 @@ model <- mx.model.FeedForward.create(
                                       )
 ```
 
-At this point you should see your model trying to learn like this
+At this point you should see your model trying to learn like this: <br>
 ![train](https://github.com/MLatIBDM/TP_classification/blob/master/images/train.png)
 
 Normally, at the end of the 100 epochs, you should achieve more or less quickly a rather good prediction accuracy on Training set but not so good on validation set !
@@ -360,8 +360,22 @@ Check your logger to see more how your model has learnt :
 ```R
 mmx.plotLogger(logger)
 ```
-Here is the mine:
+Here is the mine: <br>
 ![logger](https://github.com/MLatIBDM/TP_classification/blob/master/images/logger.png)
+
+Congratulation ! We just finished to train our first model together but i'm sorry to tell you that the model we trained seems to be **stuck** and seems to have a little bit **overfits** during the train (around epochs 50). I'm not sure of it's predictive performance.
+
+Let's check on the test data 
+
+```R
+mmx.evalOn(model,mydata$test)
+```
+On my computer i achieve : 85% accuracy on test set which is more or less similar to the validation set.
+
+> #### Let's play a bit with learning parameters
+> OK now, i let you play a little bit with the learning parameters to try to improve your numbers and achieve a better accuracy on both Validation and Test set.
+
+
 
 
 
