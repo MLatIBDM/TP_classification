@@ -372,8 +372,12 @@ mmx.evalOn(model,mydata$test)
 ```
 On my computer i achieve : 85% accuracy on test set which is more or less similar to the validation set ... we can do better ! :)
 
-> #### Let's play a bit with learning parameters
-> OK now, i let you play a little bit with the learning parameters to try to improve your numbers and achieve a better accuracy on both Validation and Test set.
+> #### Let's play a bit with learning parameters and Network architecure
+> OK now, i let you play a little bit with the learning parameters and network architecture to try to improve your numbers and achieve a better accuracy on both Validation and Test set.
+> Try everyting your want: increase/decrease learning size, batch_size, epochs
+> Add/remove layers, add/remove more neurons ... 
+> So in some word: have fun ! :)
+
 
 
 
