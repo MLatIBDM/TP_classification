@@ -304,6 +304,8 @@ Let's train our network !
 
 ## Training 
 
+
+
 ```R
 logger <- mmx.addLogger(); #Let's declare a logger to log at each epoch the performance of our model
 
