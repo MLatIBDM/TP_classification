@@ -224,11 +224,13 @@ To start we could use this spliting shape: <br>
     net <- mx.symbol.FullyConnected(net, name="fc_out", num_hidden=4)   # Output Layer contains 4 neurons: 1 for each image classes  
     net <- mx.symbol.SoftmaxOutput(net, name="sm")                # Output activation "SoftMax"
  ```
-Some explanations:
+Some explanations:<br>
 In MXNet we use data type <code>symbol</code> to configure the network. Each layer are "chained" to the previous layer.
 We used "relu" as neuron activation function, but we can use some other, here some of them which have their own mathematical properties.
 ![actf](https://github.com/MLatIBDM/TP_classification/blob/master/images/activation.png)
-The last layer <code>SoftmaxOutput</code> will return a probabilistic prediction of our 4 classes. More of softmax function [here](https://en.wikipedia.org/wiki/Softmax_function)
+<code>FullyConnected</code> refers to a type of neural network layer into which every neuron from the previous layer is connected to every neuron from the current layer.
+In our example we have 2 fully connected layers <code>fc1</code> and <code>fc2<code> and 1 output layer <code>fc_out</code> which contains 1 neuron by labels we want to predict.
+The last layer <code>SoftmaxOutput</code> will return a probabilistic prediction of our 4 last neurons according to their amount of activation. More of softmax function [here](https://en.wikipedia.org/wiki/Softmax_function)
 
 Just check the network architecture to be sure everythig is correct. 
 
