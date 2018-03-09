@@ -304,10 +304,28 @@ Let's train our network !
 
 ## Training 
 
-
-
+First let's declare a logger which will help us tracking the performance of our model on training and validation set.
 ```R
 logger <- mmx.addLogger(); #Let's declare a logger to log at each epoch the performance of our model
+```
+
+We need to indicate to MXNet:
+- the network <code>net</code><br>
+- the training data <code> mydata$train$array </code> <br>
+- the corresponding training labels <code> mydata$train$labels </code> <br>
+- the context of execution (CPU) <code> devices </code> <br>
+- the number of epochs to train the network <code>num_round</code> <br>
+- the initializer policy <code>initializer</code> <br>
+- the mini-batch size <code>batch_size</code> <br>
+- the learning rate <code> learning_rate</code> <br>
+- the <code>momentum</code> and weight decay <code>wd</code>
+- the evaluation metric we use to predict the performance of our model. They are several metrics available into MXNet.
+For classificiation and softmax as last layer of our network we use an accuracy metric <code>mx.metric.accuracy</code>.
+For regression we should use other metric suited for this kind of problems like <code>mx.metric.MSE</code> or <code>mx.metric.RMSE</code>
+- the validation data <code>mydata$valid$array</code> and labels <code>mydata$valid$labels</code>
+- a callback function called at the end of each epoch to log the accuracy into our logger.
+
+```R
 
 model <- mx.model.FeedForward.create(
                                       net,
