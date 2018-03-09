@@ -213,7 +213,7 @@ To start we could use this spliting shape: <br>
  
  It's composed of One input Layer, some internal Layer and One output Layer.
  
- We can build this network using MXNet like this:
+ We can build the network hierarchically using MXNet like this:
  
  ```R
     net <- mx.symbol.Variable("data") #Input Layer
@@ -224,14 +224,20 @@ To start we could use this spliting shape: <br>
     net <- mx.symbol.FullyConnected(net, name="fc_out", num_hidden=4)   # Output Layer contains 4 neurons: 1 for each image classes  
     net <- mx.symbol.SoftmaxOutput(net, name="sm")                # Output activation "SoftMax"
  ```
+Some explanations:
+In MXNet we use data type <code>symbol</code> to configure the network. Each layer are "chained" to the previous layer.
 We used "relu" as neuron activation function, but we can use some other, here some of them which have their own mathematical properties.
 ![actf](https://github.com/MLatIBDM/TP_classification/blob/master/images/activation.png)
+The last layer <code>SoftmaxOutput</code> will return a probabilistic prediction of our 4 classes. More of softmax function [here](https://en.wikipedia.org/wiki/Softmax_function)
 
-Just check the network architecture to be sure everythig is correct:
+Just check the network architecture to be sure everythig is correct. 
 
 ```R
 graph.viz(net)
 ```
+We will see later on that MXNet provides a wide variety and more complex type of layer usefull for building more complex neural networks.
+
+# Training Parameters
 
 
 
