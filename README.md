@@ -216,16 +216,22 @@ To start we could use this spliting shape: <br>
  We can build this network using MXNet like this:
  
  ```R
-    data <- mx.symbol.Variable("data") #Input Layer
-    fc1 <- mx.symbol.FullyConnected(data, name="fc1", num_hidden=128) # First Fully connected (FC) Layer having 128 neurons
-    act1 <- mx.symbol.Activation(fc1, name="relu1", act_type="relu")  # "Relu" Activation function of the first FC Layer
-    fc2 <- mx.symbol.FullyConnected(act1, name="fc2", num_hidden=64)  # Second FC Layer having 64 neurons
-    act2 <- mx.symbol.Activation(fc2, name="relu2", act_type="relu")  # "Relu" Activation function of the second FC Layer
-    fc3 <- mx.symbol.FullyConnected(act2, name="fc3", num_hidden=4)   # Output Layer contains 4 neurons: 1 for each image classes  
-    softmax <- mx.symbol.SoftmaxOutput(fc3, name="sm")                # Output activation "SoftMax"
+    net <- mx.symbol.Variable("data") #Input Layer
+    net <- mx.symbol.FullyConnected(net, name="fc1", num_hidden=128) # First Fully connected (FC) Layer having 128 neurons
+    net <- mx.symbol.Activation(net, name="relu1", act_type="relu")  # "Relu" Activation function of the first FC Layer
+    net <- mx.symbol.FullyConnected(net, name="fc2", num_hidden=64)  # Second FC Layer having 64 neurons
+    net <- mx.symbol.Activation(net, name="relu2", act_type="relu")  # "Relu" Activation function of the second FC Layer
+    net <- mx.symbol.FullyConnected(net, name="fc_out", num_hidden=4)   # Output Layer contains 4 neurons: 1 for each image classes  
+    net <- mx.symbol.SoftmaxOutput(net, name="sm")                # Output activation "SoftMax"
  ```
-We used "relu" as neuron activation function, but we can use some other, here some of them :
- ![actf](https://github.com/MLatIBDM/TP_classification/blob/master/images/activation.png)
+We used "relu" as neuron activation function, but we can use some other, here some of them which have their own mathematical properties.
+![actf](https://github.com/MLatIBDM/TP_classification/blob/master/images/activation.png)
+
+Just check the network architecture to be sure everythig is correct:
+
+```R
+graph.viz(net)
+```
 
 
 
