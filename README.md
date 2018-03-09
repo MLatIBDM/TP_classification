@@ -200,6 +200,13 @@ To start we could use this spliting shape: <br>
  table(mydata$valid$labels)/sum(table(mydata$valid$labels))
  table(mydata$test$labels)/sum(table(mydata$test$labels))
  ```
+ And lastly we format the data into a readable format for our future neural network:
+ 
+ ```R
+ mydata <- mmx.prepareDataImages(mydata)
+ ```
+ 
+ 
  Congratulation ! Data are now ready to be used for Training our model ! :)
  
  But ... before training the model, we need to design the **Network model architecture** !
@@ -296,6 +303,27 @@ The second line is for reproductibility of result.
 Let's train our network !
 
 ## Training 
+
+```R
+logger <- mmx.addLogger(); #Let's declare a logger to log at each epoch the performance of our model
+
+model <- mx.model.FeedForward.create(
+                                      net,
+                                      X =   mydata$train$array,
+                                      Y =   mydata$train$labels,
+                                      ctx = devices,
+                                      num.round = num_round,
+                                      initializer = initializer,
+                                      array.batch.size = batch_size,
+                                      learning.rate = learning_rate,
+                                      momentum = momentum,
+                                      wd = wd,
+                                      eval.metric = mx.metric.accuracy,
+                                      eval.data = list(data=mydata$valid$array, label=mydata$valid$labels),
+                                      epoch.end.callback = mx.callback.log.train.metric(10,logger)
+                                      )
+```
+
 
 
 
