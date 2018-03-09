@@ -268,8 +268,9 @@ As a general rule, taking 5% of the total training set size as __mini-batch__ si
 
 - **wd (weight decay):** : It regularization trick to add a penalty to the network weights at a given regularization rate (wd). More informations [here](https://en.wikipedia.org/wiki/Convolutional_neural_network#Weight_decay)
 
-#### Play Time !
-if you want to relax a little bit, you can use this amazing website coded by Google which gives you the opportunity to play with a lot of neural network parameters and architecture and see directly their impatc on the training process, a must-see ! [here](http://playground.tensorflow.org/)
+>**Play Time !**
+>if you want to relax a little bit, you can use this amazing website coded by Google which gives you the opportunity to play with a lot of neural network parameters and architecture and see directly their impatc on the training process, a must-see ! [here]>(http://playground.tensorflow.org/)
+
 
 OK Now you know a little bit more about the main training parameters you can play with, let's go !!
 
@@ -281,13 +282,22 @@ OK Now you know a little bit more about the main training parameters you can pla
  wd = 0.00001
  initializer = mx.init.normal(0.1) #I choose to initialize with this arbitrary value because ... i don't know .. why not ? :)
   ```
+We then need to setup one final thing and everything will be ready for the training :)
+
+```R
+devices <- lapply(1:5,function(i){mx.cpu(i)})
+mx.set.seed(0)
+```
+The first line refers to the number of CPUs we want to use in parallel to train our network. 
+**Each __mini-batch__ will be distributed accross the number of CPU you allow for training. So that the number of CPUs should never be smaller than the number of __mini-batch__ . In our case, we choose 5 CPUs, so the __mini-batch__ will be use for training the network accross 5 different CPUs.**
+
+The second line is for reproductibility of result.
+
+Let's train our network !
+
+## Training 
 
 
-
-
-
-
-**TO ADD SOMEWHERE**
 
 
 
