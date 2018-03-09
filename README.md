@@ -155,12 +155,30 @@ mydata$orig$labels
 This step is essential to be sure your model is learning well and able to generalize. 
 We have to split our data into 3 distinct non overlapping set.
  - One which will be use for **Training** our model, we call it **Trainin Set**.
+ 
  - One for **Validation**. We will use this set to measure the model prediction accuracy at each steps of the learning.
  **Warning:** This set do not contain any of **Training set** data ! If you a subset of image into **Validation Set** that are currently into the **Training Set**, your model will be greatly biased and you won't be able to know whether you model is able to generalize and/or **overfits** ! Moreover, whithout this set, when later on this practical course ,you'll **fine tune** the network hyperparameters, you won't be able to measure the impact of the generalization capability of your model. We will talk about that later.
+ 
+ **Important**: Training and Validation set should be __comparable__ in a sense that every one should contains the same proportion of data/class. Otherwise your model will probably fail to achieve good prediction accuracies because it would be overtrained on a subset of data/class.
+ 
  - One for **Test**. Once your model has been trained and achieve a good accuracy on validation, we will use this set to measure the predictive capability of your network on a completely new set of data which has not been used for training nor hyperparameters __fine tuning__. This is important because the prediction accuracy on the test set should be very similar on future unlabelled data you'll present to your model.
  
- **Important**: All three set should be __comparable__ in a sense that every one should contains the same proportion of data/class.
- Otherwise your model will probably fail to achieve good prediction accuracies.
+ Everything is already implemented into the <code> mmx.splitDataImages()</code> functions: split, data/classes equalization accross the different set.
+
+To start we could use this spliting shape: <br>
+<code> Training Set : 60% </code> <br>
+<code> Validation Set : 30% </code> <br>
+<code> Test Set : 10% </code> <br>
+<br>
+ 
+ Let's go !
+ 
+ ```R
+ split_shape = c(60,30,10)
+ mydata <- mmx.splitDataImages(mydata,split_shape,equalize=T)
+ ```
+ 
+ 
 
 
 
