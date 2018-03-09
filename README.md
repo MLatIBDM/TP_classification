@@ -372,11 +372,105 @@ mmx.evalOn(model,mydata$test)
 ```
 On my computer i achieve : 85% accuracy on test set which is more or less similar to the validation set ... we can do better ! :)
 
+In case here is the complete code:
+
+```R
+# --- Load the libraries we'll need
+library(mxnet)
+library(imager)
+
+# --- Set the source path and functions we need
+source_path = '/home/mxnet/TP/'
+setwd(source_path)
+source(paste(source_path,'classification_functions.R',sep=''))
+
+# --- Data Manager
+input_image_size = c(32,32,1)
+split_shape = c(60,30,10)
+
+path_to_images = list(
+                      '/home/mxnet/TP/DATA/1354-nd2',
+                      '/home/mxnet/TP/DATA/1354-001-nd2'
+                      )
+  # Read and backup the images
+  mydata_orig <- mmx.readDataImages(path_to_images,'*.tif')
+  mydata <- mydata_orig
+  
+  # Reshape the images
+  mydata <- mmx.reshapeDataImages(mydata,input_image_size)
+  
+  # Normalize the images
+  mydata <- mmx.normalizeDataImages(mydata)
+  
+  # Resample the images
+  mydata <- mmx.resampleDataImages(my_data)
+  
+  # Split into Training/Validation/Test set
+  mydata <- mmx.splitDataImages(mydata,split_shape,equalize=T,epsilon=0.008,maxiter=2000)
+  
+  # Format the different set to be ready to go into the trainin part
+  mydata <- mmx.prepareDataImages(mydata)
+  
+# --- Network Manager 
+
+  net <- mx.symbol.Variable("data") #Input Layer
+  net <- mx.symbol.FullyConnected(net, name="fc1", num_hidden=128) # First Fully connected (FC) Layer having 128 neurons
+  net <- mx.symbol.Activation(net, name="relu1", act_type="relu")  # "Relu" Activation function of the first FC Layer
+  net <- mx.symbol.FullyConnected(net, name="fc2", num_hidden=64)  # Second FC Layer having 64 neurons
+  net <- mx.symbol.Activation(net, name="relu2", act_type="relu")  # "Relu" Activation function of the second FC Layer
+  net <- mx.symbol.FullyConnected(net, name="fc_out", num_hidden=4)   # Output Layer contains 4 neurons: 1 for each image classes  
+  net <- mx.symbol.SoftmaxOutput(net, name="sm")                # Output activation "SoftMax"
+ 
+ # --- Training Manager
+ 
+    # --- Training parameters
+      num_round = 100 # Number of epochs
+      batch_size = 60 # the size of the mini-batch
+      learning_rate = 0.01 
+      momentum = 0.9
+      wd = 0.00001
+      initializer = mx.init.normal(0.1)
+    
+    # --- Training context
+      devices <- lapply(1:5,function(i){mx.cpu(i)})
+      mx.set.seed(0)
+      
+    # Training
+      logger <- mmx.addLogger(); #Let's declare a logger to log at each epoch the performance of our model
+      
+      model <- mx.model.FeedForward.create(
+                                      net,
+                                      X =   mydata$train$array,
+                                      Y =   mydata$train$labels,
+                                      ctx = devices,
+                                      num.round = num_round,
+                                      initializer = initializer,
+                                      array.batch.size = batch_size,
+                                      learning.rate = learning_rate,
+                                      momentum = momentum,
+                                      wd = wd,
+                                      eval.metric = mx.metric.accuracy,
+                                      eval.data = list(data=mydata$valid$array, label=mydata$valid$labels),
+                                      epoch.end.callback = mx.callback.log.train.metric(10,logger)
+                                      )
+    
+      # Show model performance
+      mmx.plotLogger(logger)
+      
+      mmx.evalOn(model,mydata$train) # On training set
+      mmx.evalOn(model,mydata$valid) # On validation set
+      mmx.evalOn(model,mydata$test) # On test set
+     
+
+
+```
+
 > #### Let's play a bit with learning parameters and Network architecure
-> OK now, i let you play a little bit with the learning parameters and network architecture to try to improve your numbers and achieve a better accuracy on both Validation and Test set.
-> Try everyting your want: increase/decrease learning size, batch_size, epochs
-> Add/remove layers, add/remove more neurons ... 
-> So in some word: have fun ! :)
+> OK now, i let you play a little bit with the learning parameters and network architecture to try to improve your numbers and achieve a better accuracy on both Validation and Test set.<br>
+> Try everyting your want: increase/decrease learning size, batch_size, epochs, weight_decay, momentum ...<br>
+> Add/remove layers, add/remove more neurons ... <br>
+> Change the Trainin/Validation/Test proportions ... <br>
+> So in some word: have fun and improve ! :)<br>
 
 
 
