@@ -230,7 +230,7 @@ We used "relu" as neuron activation function, but we can use some other, here so
 ![actf](https://github.com/MLatIBDM/TP_classification/blob/master/images/activation.png)
 <code>FullyConnected</code> refers to a type of neural network layer into which every neuron from the previous layer is connected to every neuron from the current layer.
 In our example we have 2 fully connected layers <code>fc1</code> and <code>fc2</code> and 1 output layer <code>fc_out</code> which contains 1 neuron by labels we want to predict.
-The last layer <code>SoftmaxOutput</code> will return a probabilistic prediction of our 4 last neurons according to their amount of activation. More of softmax function [here](https://en.wikipedia.org/wiki/Softmax_function)
+The last layer <code>SoftmaxOutput</code> will return a probabilistic prediction of our 4 last neurons layer according to their amount of activation. More of softmax function [here](https://en.wikipedia.org/wiki/Softmax_function)
 
 Just check the network architecture to be sure everythig is correct. 
 
