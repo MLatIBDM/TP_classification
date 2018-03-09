@@ -247,15 +247,27 @@ In order to achieve good prediction performance, we should take care of the trai
 There is no "magic recipes" i can give you because it's an open research subject nowadays but we are going to highlight some important key to not fail the training.
 
 The two major training parameters to take care of are **learning rate** and **batch size**, but there are other important too.
-Here the list of training parameters you can modify:
+Here the list of training parameters you can play with:
+
 - **learning_rate :** Define the "velocity" you will travel accross the solution hyperspace during the __gradient descent__ algorithm. A small learning rate means your model will learn and converge very slowly to a local minimum solution. A big learning rate doesn't mean your model will learn quickly but will make bigger "jump" and explor more the solution hyperspace, but it will have difficulties to find a local minimum solution.
 So, the learning rate should be choosen wisely to balance "exploration" and "convergeance" to a local minimum.
 
 ![lr](https://github.com/MLatIBDM/TP_classification/blob/master/images/lr.png)
 
-- **batch_size :** The gradient descent algorithm , also called **Stochastic Gradient Descent** (SGD), use a "trick" to quickly find a local minimum into the solution hyperspace: data are grouped into __mini-batch__ that are used at the same time to calculate the gradient descent and then train the model. The size of this __mini-batch__ is also important because it will impact greatly the training time, Memory usage and the model performance. Previous studies have shown that the use of __mini-batch__ greatly improves the SGD algorithm.
-If you use a too large __mini-batch__ size, you will probably explode your computing memory quickly as every example are loaded into RAM. In case it doesn't explode the model should overfit quickly because every batch contains a lot of data and only one gradient is calculated for the mini-batch.
+- **batch_size :** The gradient descent algorithm , also called **Stochastic Gradient Descent** (SGD), use a "trick" to quickly find a local minimum into the solution hyperspace: data are grouped into __mini-batch__ that are used at the same time to calculate the gradient descent and then train the model. The size of this __mini-batch__ is also important because it will impact greatly the training time, Memory usage and the model performance. Previous studies have shown that the use of __mini-batch__ greatly improves the SGD algorithm.<br>
+But, again, be careful : if you use a too large __mini-batch__ size, you will probably explode your computing memory quickly as every example are loaded into RAM. In case it doesn't explode the model should overfit quickly because every batch contains a lot of data and only one gradient is calculated for the mini-batch.<br>
 If you use a too smal __mini-batch__ size, you won't explode your computing memory, but your gradient will become more instable and you'll probably need to decrease your learning rate to achieve good accuracy.
+There is no rules to choose a "good" __mini-batch__ size, you should trial and error a lot before finding a good compromise.
+As a general rule, taking 5% of the total training set size as __mini-batch__ size could be use as a starting point, but once again it's not a general rule.
+
+- **initializer:** Each weight of your network (connecting one neuron to another) is randomly initialized at the begining of the training. MXNet provides several functions to initialize your weights (normal distribution, Xavier distribution, ...)
+
+- **num_round:** The number of epochs you will use to train your model. At the end of each epoch, your model has seen every training data, calculated the loss, updated the network according to the gradient. 
+
+- **momentum:** : A momentum it's a kind of "trick" to avoid being stuck into local minimum during solution hyperspace exploration by SGD using the previous "velocity" to jump oustide local minima. See [here](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Momentum) for more clear explanation ;)
+
+- **wd (weight decay):** : It's a linear regularization(L1 norm) or square regularization(L2 norm) used for adding a penalty to the network weights. More informations [here](https://en.wikipedia.org/wiki/Convolutional_neural_network#Weight_decay)
+
 
 
 
