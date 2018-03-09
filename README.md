@@ -166,9 +166,9 @@ We have to split our data into 3 distinct non overlapping set.
  Everything is already implemented into the <code> mmx.splitDataImages()</code> functions: split, data/classes equalization accross the different set.
 
 To start we could use this spliting shape: <br>
-<code> Training Set : 60% </code> <br>
-<code> Validation Set : 30% </code> <br>
-<code> Test Set : 10% </code> <br>
+- Training Set : 60%
+- Validation Set : 30%
+- Test Set : 10% 
 <br>
  
  Let's go !
@@ -181,16 +181,16 @@ To start we could use this spliting shape: <br>
  You can access to the different data set and labels like this:
  ```R
  #Training Set
- mydata$train$images #For images
- mydata$train$labels #For labels
+ mydata$train$images #For Training images
+ mydata$train$labels #For Training labels
  
  #Validation Set
- mydata$valid$images #For images
- mydata$valid$labels #For labels
+ mydata$valid$images #For Validation images
+ mydata$valid$labels #For Validation labels
  
  #Test Set
- mydata$test$images #For images
- mydata$test$labels #For labels
+ mydata$test$images #For Test images
+ mydata$test$labels #For Test labels
   ```
  
  Check that the repartion data/classes is consistent between the three set:
@@ -246,6 +246,16 @@ But from now let's focus on an important step of our model building: the trainin
 In order to achieve good prediction performance, we should take care of the training parameters because they are a really important and critical step.
 There is no "magic recipes" i can give you because it's an open research subject nowadays but we are going to highlight some important key to not fail the training.
 
+The two major training parameters to take care of are **learning rate** and **batch size**, but there are other important too.
+Here the list of training parameters you can modify:
+- **learning_rate :** Define the "velocity" you will travel accross the solution hyperspace during the __gradient descent__ algorithm. A small learning rate means your model will learn and converge very slowly to a local minimum solution. A big learning rate doesn't mean your model will learn quickly but will make bigger "jump" and explor more the solution hyperspace, but it will have difficulties to find a local minimum solution.
+So, the learning rate should be choosen wisely to balance "exploration" and "convergeance" to a local minimum.
+
+![lr](https://github.com/MLatIBDM/TP_classification/blob/master/images/lr.png)
+
+- **batch_size :** The gradient descent algorithm , also called **Stochastic Gradient Descent** (SGD), use a "trick" to quickly find a local minimum into the solution hyperspace: data are grouped into __mini-batch__ that are used at the same time to calculate the gradient descent and then train the model. The size of this __mini-batch__ is also important because it will impact greatly the training time, Memory usage and the model performance. Previous studies have shown that the use of __mini-batch__ greatly improves the SGD algorithm.
+If you use a too large __mini-batch__ size, you will probably explode your computing memory quickly as every example are loaded into RAM. In case it doesn't explode the model should overfit quickly because every batch contains a lot of data and only one gradient is calculated for the mini-batch.
+If you use a too smal __mini-batch__ size, you won't explode your computing memory, but your gradient will become more instable and you'll probably need to decrease your learning rate to achieve good accuracy.
 
 
 
