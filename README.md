@@ -177,8 +177,7 @@ To start we could use this spliting shape: <br>
  split_shape = c(60,30,10)
  mydata <- mmx.splitDataImages(mydata,split_shape,equalize=T,epsilon=0.008,maxiter=2000)
  ```
- Now, your data are ready to be used for Training your model ! 
- <code>mydata</code> is a stucture (R list) containing : Training/Validation/Set.
+  <code>mydata</code> is a stucture (R list) containing : Training/Validation/Set.
  You can access to the different data set and labels like this:
  ```R
  #Training Set
@@ -201,7 +200,33 @@ To start we could use this spliting shape: <br>
  table(mydata$valid$labels)/sum(table(mydata$valid$labels))
  table(mydata$test$labels)/sum(table(mydata$test$labels))
  ```
+ Congratulation ! Data are now ready to be used for Training our model ! :)
  
+ But ... before training the model, we need to design the **Network model architecture** !
+ 
+ # Network model architecture
+ 
+ First, we are going to use a classical [Multi-Layer Perceptron](https://en.wikipedia.org/wiki/Multilayer_perceptron).
+ network architecture for our Model.
+ 
+ ![mlp](https://github.com/MLatIBDM/TP_classification/blob/master/images/mlp.png)
+ 
+ It's composed of One input Layer, some internal Layer and One output Layer.
+ 
+ We can build this network using MXNet like this:
+ 
+ ```R
+    data <- mx.symbol.Variable("data") #Input Layer
+    fc1 <- mx.symbol.FullyConnected(data, name="fc1", num_hidden=128) # First Fully connected (FC) Layer having 128 neurons
+    act1 <- mx.symbol.Activation(fc1, name="relu1", act_type="relu")  # "Relu" Activation function of the first FC Layer
+    fc2 <- mx.symbol.FullyConnected(act1, name="fc2", num_hidden=64)  # Second FC Layer having 64 neurons
+    act2 <- mx.symbol.Activation(fc2, name="relu2", act_type="relu")  # "Relu" Activation function of the second FC Layer
+    fc3 <- mx.symbol.FullyConnected(act2, name="fc3", num_hidden=4)   # Output Layer contains 4 neurons: 1 for each image classes  
+    softmax <- mx.symbol.SoftmaxOutput(fc3, name="sm")                # Output activation "SoftMax"
+ ```
+We used "relu" as neuron activation function, but we can use some other, here some of them :
+ ![actf](https://github.com/MLatIBDM/TP_classification/blob/master/images/activation.png)
+
 
 
 
