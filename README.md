@@ -473,6 +473,12 @@ path_to_images = list(
 > Increase/decrease the image size ... <br>
 > So in some word: have fun, maybe you can crash your virtual machine, but try to improve and understand why ! :)<br>
 
+# Data Augmentation
+
+Data what ? Data Augmentation !
+
+After tuning the network, the parameters, the sets without major accuracy improvements ... One of the main trick to improve prediction accuracy is to artificially augment the data size to show the model more training data. This is called Data Augmentation. How to augment the data without adding bias to the final prediction ? By taking images from the training et and applying some subtle modifications like rotation, flip, noising, ... See [here]() for a almost complete list of augentation you can apply to your images without adding any bias to the training process.
+
 
 
 
