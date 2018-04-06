@@ -490,7 +490,7 @@ After tuning the network, the parameters, the sets without major accuracy improv
 
 Let's try Data Augmentation on our dataset:
 
-<b>Important<b> : As we don't want to bias the results on Validation, we must do the data augmentation ONLY on the training set
+**Important** : As we don't want to bias the results on Validation, we must do the data augmentation ONLY on the training set
 
 First we need to load a new library which will help us to play with the data
 ```R
