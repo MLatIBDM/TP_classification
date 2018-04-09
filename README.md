@@ -446,9 +446,10 @@ input_image_size = c(32,32,1)
 split_shape = c(60,30,10)
 
 path_to_images = list(
-                      '/home/mxnet/TP/DATA/1354-nd2',
-                      '/home/mxnet/TP/DATA/1354-001-nd2'
+                      paste(source_path,'DATA/1354-nd2',sep=''),
+                      paste(source_path,'DATA/1354-001-nd2',sep='')
                       )
+
   # Read and backup the images
   mydata_orig <- mmx.readDataImages(path_to_images,'*.tif')
   mydata <- mydata_orig
@@ -481,6 +482,9 @@ path_to_images = list(
  # --- Training Manager
 
     # --- Training parameters
+
+      mx.set.seed(0)
+
       num_round = 100 # Number of epochs
       batch_size = 60 # the size of the mini-batch
       learning_rate = 0.01
@@ -490,7 +494,6 @@ path_to_images = list(
 
     # --- Training context
       devices <- lapply(1:5,function(i){mx.cpu(i)})
-      mx.set.seed(0)
 
     # Training
       logger <- mmx.addLogger(); #Let's declare a logger to log at each epoch the performance of our model
@@ -498,7 +501,7 @@ path_to_images = list(
       model <- mx.model.FeedForward.create(
                                       net,
                                       X =   mydata$train$array,
-                                      Y =   mydata$train$labels,
+                                      y =   mydata$train$labels,
                                       ctx = devices,
                                       num.round = num_round,
                                       initializer = initializer,
