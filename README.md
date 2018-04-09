@@ -954,74 +954,13 @@ class(googlelenet_model_features) <- "MXFeedForwardModel"
 ### Features
 
 Ok now we have both our data and a shortened GoogleLeNet model, we want to retrieve our features by putting our images into the shortened model.
-We need first to declare a small helpful function:
+I've written a dedicated function to do so, feel free to check it into <code>classification_functions.R</code> script.
 
 ```R
 
-    preproc.image <- function(im, mean.image) {
-      # crop the image
-      shape <- dim(im)
-      short.edge <- min(shape[1:2])
-      xx <- floor((shape[1] - short.edge) / 2)
-      yy <- floor((shape[2] - short.edge) / 2)
-      cropped <- crop.borders(im, xx, yy)
-      # resize to 224 x 224, needed by input of the model.
-      resized <- resize(cropped, 224, 224)
-      # convert to array (x, y, channel)
-      arr <- as.array(resized) * 255
-      dim(arr) <- c(224, 224, 3)
-      # subtract the mean
-      normed <- arr
-      # Reshape to format needed by mxnet (width, height, channel, num)
-      dim(normed) <- c(224, 224, 3, 1)
-      return(normed)
-    }
-```
-This function is doing two things:
-- Resize our images to the size GoogleLent model is expecting : <code>(224,224,3)
-- Scale up the color of our data into 8-bit RGB.
-<br>
-
-And then to calculate the features of all our images and store it into a data structure. We do this both for Training, Validation and Test dataset:
-
-```R
 #Calculate the feature vectors for Training dataset
-result_train<-matrix(,0,1024+1)
-for (i in 1:length(mydata$train$images)){
-cat(i)
-im <- mydata$train$images[[i]]
-normed <- preproc.image(im)
-prob = predict(googlelenet_model_features,normed)
-p = prob[,,1:v_length,]
-v_length = dim(prob)[3]
-p=rbind(mydata$train$labels[i],as.matrix(p))
-result_train <- rbind(result,t(p))
-}
-
-#Calculate the feature vectors for Validation dataset
-result_valid<-matrix(,0,1024+1)
-for (i in 1:length(mydata$valid$images)){
-cat(i)
-im <- mydata$valid$images[[i]]
-normed <- preproc.image(im)
-prob = predict(googlelenet_model_features,normed)
-p = prob[,,1:v_length,]
-v_length = dim(prob)[3]
-p=rbind(mydata$valid$labels[i],as.matrix(p))
-result_valid <- rbind(result,t(p))
-}
-
-#Calculate the feature vectors for Test dataset
-result_test<-matrix(,0,1024+1)
-for (i in 1:length(mydata$test$images)){
-cat(i)
-im <- mydata$test$images[[i]]
-normed <- preproc.image(im)
-prob = predict(googlelenet_model_features,normed)
-p = prob[,,1:v_length,]
-v_length = dim(prob)[3]
-p=rbind(mydata$test$labels[i],as.matrix(p))
-result_test <- rbind(result,t(p))
-}
+result_train <- mmx.calculateFeatures(mydata$train,googlelenet_model_features)
+result_valid <- mmx.calculateFeatures(mydata$valid,googlelenet_model_features)
+result_test <- mmx.calculateFeatures(mydata$test,googlelenet_model_features)
 
 ```
