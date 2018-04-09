@@ -885,3 +885,143 @@ How to convert a <em>"Cat & Dog"</em> model into a really powerful model able to
 <br>
 What is transfert Learning ?
 ![tl](https://github.com/MLatIBDM/TP_classification/blob/master/images/tl.png)
+Transfert Learning allow us to convert an already trained model for a specific classification task into another model dedicated to another classification task. <br>
+It exists several already pretrained model on plenty of different classification task, and for the purpose of this practical course, we will use **GoogleLenet - Inception BN** model.<br>
+This model, created by **Google** has been train on millions of images, depicting cars, plane, fruits, animals ... from **ImageNet** (databse)[http://www.image-net.org]
+GoogleLenet is a rather complex model which gather a lot of convolution layers (actually 22 convolutional layer), and use some topologies trick to improve the classification score on the Imagenet dataset. See [here](https://arxiv.org/abs/1409.4842) the original paper.
+<br>
+**Bad news :** As this architecture is absolutely huge in terms of memory and time consuming, it's impossible to train on such model from scratch. <br>
+**Good news:** Other guys have already trained it and we just have to transfert it to our problem by only retraining the <em>"brain"</em> part using a **Multi-layer Perceptron**, like we did at the begining of this practical course !
+<br>
+OK ! But we need a little bit of work to have a such a result, so let's start !
+<br>
+### DATA regeneration
+We have to regenerate our data to have a clean dataset:
+```R
+mydata_orig <- mmx.readDataImages(path_to_images,'*.tif')
+mydata <- mydata_orig
+```
+
+Once it's done, and as **GoogleLenet** model works in RGB, we have to convert our images into RGB, and normalize + resample the images:
+
+```R
+input_image_size = c(32,32,3)
+mydata <- mmx.reshapeDataImages(mydata,input_image_size)
+mydata <- mmx.normalizeDataImages(mydata)
+mydata <- mmx.resampleDataImages(mydata)
+```
+Make the train/validation/test split like before:
+
+```R
+split_shape = c(60,30,10)
+mydata <- mmx.splitDataImages(mydata,split_shape,equalize=T,epsilon=0.008,maxiter=2000)
+```
+Ok now, we have clean dataset, we need to work now a bit on GoogleLenet model.
+
+### GoogleLenet model
+
+First we have to load the pretrained model, I've already download into your virtual machine.
+We hage 2 files:
+- <code>Inception_BN-0039.params</code> which contains the pretrained networks weights
+- <code>Inception_BN-symbol.json</code> which contains the architecture of the network (its topology)
+<br>
+Let's do this:
+```R
+googlelenet_model = mx.model.load(paste(source_path,"Inception_BN",sep=''), iteration=39)
+```
+
+Now we need to empyt the last fully connected layer of this model (<em>"brain"</em> part) and to keep the convolutionnal layers (<em>"eyes"</em> part). <br>
+**The goal is to have a modified GoogleLenet model which takes as input an image and outputs its corresponding features (feature vector)**<br>
+This is what we do by doing this:
+```R
+#We extract the weights of the GoogleLenet network
+internals = googlelenet_model$symbol$get.internals()
+
+#We copy the weights from the begining to the last convolutional layers which contains the features
+fea_symbol = internals[[match("global_pool_output", internals$outputs)]]
+
+#We empty the brain parts
+googlelenet_model$arg.params$fc_bias <- NULL
+googlelenet_model$arg.params$fc_weight <- NULL
+
+#And we create a new model like we wanted
+googlelenet_model_features <- list(symbol = fea_symbol,
+              arg.params = googlelenet_model$arg.params,
+              aux.params = googlelenet_model$aux.params)
+
+class(googlelenet_model_features) <- "MXFeedForwardModel"
+```
+### Features
+
+Ok now we have both our data and a shortened GoogleLeNet model, we want to retrieve our features by putting our images into the shortened model.
+We need first to declare a small helpful function:
+
+```R
+
+    preproc.image <- function(im, mean.image) {
+      # crop the image
+      shape <- dim(im)
+      short.edge <- min(shape[1:2])
+      xx <- floor((shape[1] - short.edge) / 2)
+      yy <- floor((shape[2] - short.edge) / 2)
+      cropped <- crop.borders(im, xx, yy)
+      # resize to 224 x 224, needed by input of the model.
+      resized <- resize(cropped, 224, 224)
+      # convert to array (x, y, channel)
+      arr <- as.array(resized) * 255
+      dim(arr) <- c(224, 224, 3)
+      # subtract the mean
+      normed <- arr
+      # Reshape to format needed by mxnet (width, height, channel, num)
+      dim(normed) <- c(224, 224, 3, 1)
+      return(normed)
+    }
+```
+This function is doing two things:
+- Resize our images to the size GoogleLent model is expecting : <code>(224,224,3)
+- Scale up the color of our data into 8-bit RGB.
+<br>
+
+And then to calculate the features of all our images and store it into a data structure. We do this both for Training, Validation and Test dataset:
+
+```R
+#Calculate the feature vectors for Training dataset
+result_train<-matrix(,0,1024+1)
+for (i in 1:length(mydata$train$images)){
+cat(i)
+im <- mydata$train$images[[i]]
+normed <- preproc.image(im)
+prob = predict(googlelenet_model_features,normed)
+p = prob[,,1:v_length,]
+v_length = dim(prob)[3]
+p=rbind(mydata$train$labels[i],as.matrix(p))
+result_train <- rbind(result,t(p))
+}
+
+#Calculate the feature vectors for Validation dataset
+result_valid<-matrix(,0,1024+1)
+for (i in 1:length(mydata$valid$images)){
+cat(i)
+im <- mydata$valid$images[[i]]
+normed <- preproc.image(im)
+prob = predict(googlelenet_model_features,normed)
+p = prob[,,1:v_length,]
+v_length = dim(prob)[3]
+p=rbind(mydata$valid$labels[i],as.matrix(p))
+result_valid <- rbind(result,t(p))
+}
+
+#Calculate the feature vectors for Test dataset
+result_test<-matrix(,0,1024+1)
+for (i in 1:length(mydata$test$images)){
+cat(i)
+im <- mydata$test$images[[i]]
+normed <- preproc.image(im)
+prob = predict(googlelenet_model_features,normed)
+p = prob[,,1:v_length,]
+v_length = dim(prob)[3]
+p=rbind(mydata$test$labels[i],as.matrix(p))
+result_test <- rbind(result,t(p))
+}
+
+```
