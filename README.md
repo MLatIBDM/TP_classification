@@ -161,7 +161,7 @@ mydata <- mmx.resampleDataImages(mydata)
 You can check now that the label and images are randomly sampled.
 
 ```R
-mydata$orig$labels
+mydata$labels
 ```
 
 ### Split Data into Training/Validation/Test set
@@ -578,11 +578,11 @@ whatever angle you want !
 The second and third argument are the parameters for the Gaussian noise distribution, in this case i choose mean=0 and standard deviation=0.10. Again feel free to play with it.
 
 
-Finally we merge all the data augmentations into one unique dataset that will serve as "Agumented" Training set.
+Finally we merge all the data augmentations into one unique dataset that will serve as "Augmented" Training set.
 We set the parameter <code>resample</code> to True, because we want to shuffle up every images into our augmented training dataset.
 
 ```R
-	mydata$train <- mmx.mergeDataImages(mydata$train,list(base_rotated,base_noised,base_flipped,base_flipped_noised),resample=T)
+	mydata$train <- mmx.mergeDataImages(mydata$train,list(base_rotated,base_noised,base_flipped),resample=T)
 ```
 
 That's it !
@@ -609,7 +609,7 @@ Now let's redo the training one more time using our Augmented training Set:
       model <- mx.model.FeedForward.create(
                                       net,
                                       X =   mydata$train$array,
-                                      Y =   mydata$train$labels,
+                                      y =   mydata$train$labels,
                                       ctx = devices,
                                       num.round = num_round,
                                       initializer = initializer,
@@ -632,10 +632,8 @@ Now let's redo the training one more time using our Augmented training Set:
 
 What do you notice ?
 
-Nothing amazing right ....
-
-On my computer, I achieved, after 100 epoch an accuracy of **98% on training set** and **85% on validation set** ...
-The reason is more or less easy to guess : we chose a network architecture not very well suited to handle images, even if we applied
+On my computer, I achieved, after 100 epoch an accuracy of **98% on training set** and around **90% on validation set** ...
+It's far better, but we can do much better because we chose a network architecture not very well suited to handle images, even if we applied
 data augmentations.<br>
 Multilayer perceptron are weak when you have to classify an image, because it uses every pixels of the images to feed the network, and become totally biased by the scale/translation variations.<br><br>
 We need a network topology which can achieve better prediction by taking into account objects, despite their scale, orientation, translation, position variations.
@@ -760,7 +758,7 @@ If everyting is ok, we are ready to test this new network toplogy :)
      model <- mx.model.FeedForward.create(
                                      net_lenet5,
                                      X =   mydata$train$array,
-                                     Y =   mydata$train$labels,
+                                     y =   mydata$train$labels,
                                      ctx = devices,
                                      num.round = num_round,
                                      initializer = initializer,
@@ -785,9 +783,9 @@ If everyting is ok, we are ready to test this new network toplogy :)
 
 What do you see ?
 
-On my computer, i can achieve **97% on training set** and **91% on validation set**.
+On my computer, i can achieve **97% on training set** and between **91/93% on validation set** at best epoch iteration.
 <br>
-So by just switching from an architecture to another, we increased the accuracy by 5 points, which is really cool at this level of accuracy !
+So by just switching from an architecture to another, we increased the accuracy in a postive way !
 <br>
 But we can achieve a slightly better score using a trick: Batch Normalization !
 
@@ -849,9 +847,9 @@ and restart the training :  <br>
      logger <- mmx.addLogger(); #Let's declare a logger to log at each epoch the performance of our model
 
      model <- mx.model.FeedForward.create(
-                                     net_lenet5,
+                                     net_lenet5_BN,
                                      X =   mydata$train$array,
-                                     Y =   mydata$train$labels,
+                                     y =   mydata$train$labels,
                                      ctx = devices,
                                      num.round = num_round,
                                      initializer = initializer,
@@ -876,6 +874,6 @@ and restart the training :  <br>
 
 Do you see an improvment ?
 
-From my part, yes i achieved a slightly better accuracy: **99% on training set** and **93% on validation set** : 2 points more on validation set ! Great !
+From my part, yes i achieved a slightly better accuracy: **99% on training set** and aournd **94/95% on validation set** : Great !
 
 I let you play a bit with hyperparameters, network architecture ... and try to get better accuracy !
