@@ -8,7 +8,7 @@ Welcome to the Machine Learning practical course !
 For those who don't have already downloaded Virtual box, please download :<br>
 - [Virtual box]("https://www.virtualbox.org/")
 - Activate Virtualization into the BIOS (in case it's not already done)
-- Download the virtual machine from [here]()
+- Download the virtual machine from [here]() or get it with USB key into the classroom
 - Import the virtual machine into Virtual box (RAM ? Disk space ? ...)
 - Start the machine (login::password / mxnet::mxnet)
 
@@ -22,7 +22,7 @@ You'll find more information on the framework API [here](https://mxnet.incubator
 or visiting their [Github repository](https://github.com/apache/incubator-mxnet)
 or by playing with their [tutorials](https://mxnet.incubator.apache.org/tutorials/r/index.html)
 
-# Let's Start !
+# Let's Start: Data !
 
 **Aim** : Build and Train a classification model which will learn to discriminate a set of bacteria images into four different categories.
 
@@ -877,3 +877,11 @@ Do you see an improvment ?
 From my part, yes i achieved a slightly better accuracy: **99% on training set** and aournd **94/95% on validation set** : Great !
 
 I let you play a bit with hyperparameters, network architecture ... and try to get better accuracy !
+
+
+# Transfert Learning
+
+How to convert a <em>"Cat & Dog"</em> model into a really powerful model able to classify our bacteria accurately ? **Transfert Learning** <br>
+<br>
+What is transfert Learning ?
+![tl](https://github.com/MLatIBDM/TP_classification/blob/master/images/tl.png)
