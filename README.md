@@ -926,8 +926,9 @@ We hage 2 files:
 - <code>Inception_BN-symbol.json</code> which contains the architecture of the network (its topology)
 <br>
 Let's do this:
+
 ```R
-googlelenet_model = mx.model.load(paste(source_path,"Inception_BN",sep=''), iteration=39)
+googlelenet_model = mx.model.load(paste(source_path,"inception_model/Inception_BN",sep=''), iteration=39)
 ```
 
 Now we need to empyt the last fully connected layer of this model (<em>"brain"</em> part) and to keep the convolutionnal layers (<em>"eyes"</em> part). <br>
