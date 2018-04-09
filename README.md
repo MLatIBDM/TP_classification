@@ -960,8 +960,71 @@ I've written a dedicated function to do so, feel free to check it into <code>cla
 ```R
 
 #Calculate the feature vectors for Training dataset
-result_train <- mmx.calculateFeatures(mydata$train,googlelenet_model_features)
-result_valid <- mmx.calculateFeatures(mydata$valid,googlelenet_model_features)
-result_test <- mmx.calculateFeatures(mydata$test,googlelenet_model_features)
+train_feature_vectors <- mmx.calculateFeatures(mydata$train,googlelenet_model_features)
+valid_feature_vectors <- mmx.calculateFeatures(mydata$valid,googlelenet_model_features)
+test_feature_vectors <- mmx.calculateFeatures(mydata$test,googlelenet_model_features)
+```
+
+And create the train/validation/test structure to be use for the trains
+```R
+train_features <- mmx.prepareDataFeatures(train_feature_vectors)
+valid_features <- mmx.prepareDataFeatures(valid_feature_vectors)
+test_features <- mmx.prepareDataFeatures(test_feature_vectors)
+```
+
+### Training
+We are going to use a basic **Multilayer perceptron** for the brain part.<br>
+Let's define it:
+
+```R
+   googlelenet_model_brain <- mx.symbol.Variable("data") #Input Layer
+   googlelenet_model_brain <- mx.symbol.FullyConnected(googlelenet_model_brain, name="fc1", num_hidden=128) # First Fully connected (FC) Layer having 128 neurons
+   googlelenet_model_brain <- mx.symbol.Activation(googlelenet_model_brain, name="relu1", act_type="relu")  # "Relu" Activation function of the first FC Layer
+   googlelenet_model_brain <- mx.symbol.FullyConnected(googlelenet_model_brain, name="fc2", num_hidden=64)  # Second FC Layer having 64 neurons
+   googlelenet_model_brain <- mx.symbol.Activation(googlelenet_model_brain, name="relu2", act_type="relu")  # "Relu" Activation function of the second FC Layer
+   googlelenet_model_brain <- mx.symbol.FullyConnected(googlelenet_model_brain, name="fc_out", num_hidden=4)   # Output Layer contains 4 neurons: 1 for each image classes  
+   googlelenet_model_brain <- mx.symbol.SoftmaxOutput(googlelenet_model_brain, name="sm")                # Output activation "SoftMax"
+```
+
+and now let's redefine the hyperparameters:
+
+```R
+num_round = 100 # Number of epochs
+batch_size = 60 # the size of the mini-batch
+learning_rate = 0.01
+momentum = 0.9
+wd = 0.00001
+initializer = mx.init.normal(0.1)
+
+#And the context
+nCPU = 1 # the number of CPU assigned to the training
+devices <- lapply(1:nCPU,function(i){mx.cpu(i)})
+
+
+```
+
+OK ! Now we are ready to train and see whether we improve the accuracy or not .... <br>
+
+```R
+#Add a logger
+logger <- mmx.addLogger(); #Let's declare a logger to log at each epoch the performance of our model
+
+#Train !
+model <- mx.model.FeedForward.create(
+                                      googlelenet_model_brain,
+                                      X =   train_features$array,
+                                      y =   train_features$labels,
+                                      ctx = devices,
+                                      num.round = num_round,
+                                      initializer = initializer,
+                                      array.batch.size = batch_size,
+                                      learning.rate = learning_rate,
+                                      momentum = momentum,
+                                      wd = wd,
+                                      eval.metric = mx.metric.accuracy,
+                                      eval.data = list(data=valid_features$array, label=valid_features$labels),
+                                      epoch.end.callback = mx.callback.log.train.metric(10,logger)
+                                      )
+
 
 ```
