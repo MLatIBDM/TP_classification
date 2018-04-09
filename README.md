@@ -77,8 +77,8 @@ source(paste(source_path,'classification_functions.R',sep=''))
 We want to tell to R where are our images and load it into the R workspace:
 ```R
 path_to_images = list(
-                      cat(source_path,'DATA/1354-nd2',sep=''),
-                      cat(source_path,'DATA/1354-001-nd2',sep=''),
+                      paste(source_path,'DATA/1354-nd2',sep=''),
+                      paste(source_path,'DATA/1354-001-nd2',sep='')
                       )
 ```
 We need to load 3 graphical libraries to properly load and show the data:
