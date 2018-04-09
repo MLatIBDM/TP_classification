@@ -47,10 +47,18 @@ OK now that you know a little bit more the data we will work with, just start RS
 ```bash
 $ rstudio &
 ```
+
+If you don't want to work directly into the R console, you can switch to bash console (Linux console) and open an code editor,
+in which you'll copy paste the following piece of codes. I've preloaded <em>Sublime Text</em> into the virtual machine. If you want to use it, just type:
+```bash
+$ subl my_first_network.R &
+```
+
 Once into Rstudio, just load the MXNet library by typing the following command into th RStudio console:
 ```R
 library(mxnet)
 ```
+
 Set up the working directory
 ```R
 source_path = '/home/mxnet/TP/'
@@ -69,15 +77,16 @@ source(paste(source_path,'classification_functions.R',sep=''))
 We want to tell to R where are our images and load it into the R workspace:
 ```R
 path_to_images = list(
-                      '/home/mxnet/TP/DATA/1354-nd2',
-                      '/home/mxnet/TP/DATA/1354-001-nd2'
+                      cat(source_path,'DATA/1354-nd2',sep=''),
+                      cat(source_path,'DATA/1354-001-nd2',sep=''),
                       )
 ```
-We need to load 2 graphical libraries to properly load the data:
+We need to load 3 graphical libraries to properly load and show the data:
 
 ```R
 library(raster)
 library(rgdal)
+library(imager)
 ```
 and read the images located into <code>path_to_images</code> repository
 
@@ -88,12 +97,7 @@ mydata_orig <- mmx.readDataImages(path_to_images,'*.tif')
 
 #### Explore Data
 
-If you want to display one given image, you need to load the **imager** library:
-
-```R
-library(imager)
-```
-and then display for example the image number 1 and its corresponding label:
+Let's display for example image number 1 and its corresponding label:
 
 ```R
 plot (mydata_orig$images[[1]])
@@ -124,7 +128,7 @@ height(mydata_orig$images[[2]])
 ```
 The size need to be consistent for every images so as to be processed by our futur classification model, so that we need to reshape all images to a given size.
 **Warning:** Choosing an arbitrary too big or too small size will impact significantly our model in both term of prediction accuracy or memory, training time and CPU usage ! So choose wisely if you want to play with this parameter.
-A Good compromize is too start with a "rather" small image size like 32 pixels Width anf 32 pixels Height.
+A Good compromize is too start with a "rather" small image size like 32 pixels Width anf 32 pixels Height which is rather close to the original image size.
 
 ```R
 input_image_size = c(32,32,1)
@@ -152,7 +156,7 @@ One of the first main **issue** of bad accuracy result during **training** is du
 If you show your data in a non random order, your classifier will start to learn well for this class of data and will converge to their local minimum, but once you show other class it will fail to classify well because you will be stuck in one good local minimum for first data class and not a local minimum achieving a good local minimum for every class.
 
 ```R
-mydata <- mmx.resampleDataImages(my_data)
+mydata <- mmx.resampleDataImages(mydata)
 ```
 You can check now that the label and images are randomly sampled.
 
@@ -216,15 +220,38 @@ To start we could use this spliting shape: <br>
  mydata <- mmx.prepareDataImages(mydata)
  ```
 
+The <code>images</code> are now numeric <code>array</code>.<br>
+Check the dimensionality of your training set for example:
 
- Congratulation ! Data are now ready to be used for Training our model ! :)
+```R
+  dim(mydata$train$array)
+```
+
+You should have something like <code>(32, 32, 1, 404)</code>.<br>
+This structure is called a **tensor**. This structure is the only one MXnet can understand to feed a neural network.<br>
+In MXNet, a **tensor** is a four dimensional array of size <code>(image_width, image_height, color_depth, number_of_images)</code>.
+The tensor shape could be different in case you use another deep learning framework.<br>
+
+Let's display images number 12 for example:
+
+```R
+  mydata$train$array[,,,12]
+```
+
+You can see that the data could be positive or negative because of the Z-score normalization, but nothing change when you plot it:
+
+```R
+ plot(as.cimg(mydata$train$array[,,,12]))
+ ```
+
+** Congratulation ** ! Data are now ready to be used for training our model ! :)
 
  But ... before training the model, we need to design the **Network model architecture** !
 
  # Network model architecture
 
- First, we are going to use a classical [Multi-Layer Perceptron](https://en.wikipedia.org/wiki/Multilayer_perceptron).
- network architecture for our Model.
+ First, we are going to use a classical [**Multi-Layer Perceptron**](https://en.wikipedia.org/wiki/Multilayer_perceptron).
+ network architecture for our model.
 
  ![mlp](https://github.com/MLatIBDM/TP_classification/blob/master/images/mlp.png)
 
@@ -245,6 +272,7 @@ Some explanations:<br>
 In MXNet we use data type <code>symbol</code> to configure the network. Each layer are "chained" to the previous layer.
 We used "relu" as neuron activation function, but we can use some other, here some of them which have their own mathematical properties.
 ![actf](https://github.com/MLatIBDM/TP_classification/blob/master/images/activation.png)
+<br>
 <code>FullyConnected</code> refers to a type of neural network layer into which every neuron from the previous layer is connected to every neuron from the current layer.
 In our example we have 2 fully connected layers <code>fc1</code> and <code>fc2</code> and 1 output layer <code>fc_out</code> which contains 1 neuron by labels we want to predict.
 The last layer <code>SoftmaxOutput</code> will return a probabilistic prediction of our 4 last neurons layer according to their amount of activation. More of softmax function [here](https://en.wikipedia.org/wiki/Softmax_function)
@@ -258,7 +286,7 @@ We will see later on that MXNet provides a wide variety and more complex type of
 
 But from now let's focus on an important step of our model building: the training parameters !
 
-# Training Parameters
+# Training Parameters (Hyperparameters)
 
 In order to achieve good prediction performance, we should take care of the training parameters because they are a really important and critical step.
 There is no "magic recipes" i can give you because it's an open research subject nowadays but we are going to highlight some important key to not fail the training.
@@ -271,50 +299,69 @@ So, the learning rate should be choosen wisely to balance "exploration" and "con
 
 ![lr](https://github.com/MLatIBDM/TP_classification/blob/master/images/lr.png)
 
-- **batch_size :** The gradient descent algorithm , also called **Stochastic Gradient Descent** (SGD), use a "trick" to quickly find a local minimum into the solution hyperspace: data are grouped into __mini-batch__ that are used at the same time to calculate the gradient descent and then train the model. The size of this __mini-batch__ is also important because it will impact greatly the training time, Memory usage and the model performance. Previous studies have shown that the use of __mini-batch__ greatly improves the SGD algorithm.<br>
+- **batch_size :** The gradient descent algorithm use a "trick" to quickly find a local minimum into the solution hyperspace: data are grouped into __mini-batch__ that are used at the same time to calculate the gradient and then train the model. The size of this __mini-batch__ is also important because it will impact greatly the training time, Memory usage and the model performance. Previous studies have shown that the use of __mini-batch__ greatly improves the SGD algorithm.<br>
 But, again, be careful : if you use a too large __mini-batch__ size, you will probably explode your computing memory quickly as every example are loaded into RAM. In case it doesn't explode the model should overfit quickly because every batch contains a lot of data and only one gradient is calculated for the mini-batch.<br>
-If you use a too smal __mini-batch__ size, you won't explode your computing memory, but your gradient will become more instable and you'll probably need to decrease your learning rate to achieve good accuracy.
+If you use a too small __mini-batch__ size, you won't explode your computing memory, but your gradient will become more instable and you'll probably need to decrease your learning rate to achieve good accuracy.
 There is no rules to choose a "good" __mini-batch__ size, you should trial and error a lot before finding a good compromise.
-As a general rule, taking 5% of the total training set size as __mini-batch__ size could be use as a starting point, but once again it's not a general rule.
+As a general rule, taking 5% or 10% of the total training set size as __mini-batch__ size could be use as a starting point, but once again it's not a general rule.<br>
 
-- **initializer:** Each weight of your network (connecting one neuron to another) is randomly initialized at the begining of the training. MXNet provides several functions to initialize your weights (normal distribution, Xavier distribution, ...)
+- **optimizer :** It exists several **gradient descent** algorithm which have their own advantages and counterparts. One of the most used is **SGD (Stochastic Gradient descent)** and its variants: Adagrad, RMSProp, Adam ... [wiki](https://en.wikipedia.org/wiki/Stochastic_gradient_descent)<br>
 
-- **num_round:** The number of epochs you will use to train your model. At the end of each epoch, your model has seen every training data, calculated the loss, updated the network according to the gradient.
 
-- **momentum:** : A momentum it's a kind of "trick" to avoid being stuck into local minimum during solution hyperspace exploration by SGD using the previous "velocity" to jump oustide local minima. See [here](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Momentum) for more clear explanation ;)
+- **initializer:** Each weight of your network (connecting one neuron to another) is randomly initialized at the begining of the training. MXNet provides several functions to initialize your weights (normal distribution, Xavier distribution, ...). The problem
+of weight initialization is an open research problem nowaday.
+
+- **num_round:** The number of epochs you will use to train your model. If you put too much training epochs your model may be would not achieve it's best accuracy. If it's too long, you could be stuck or overfit too much. One of the major technics to prevent overfitting is to stop the learning according to one or several training conditions you have already defined. This is called **early stoping**. You can stop once you achieve a good validation accuracy, or if you model doesn't improve validation accuracy more than one given value for more than X epochs.
+
+- **momentum:** : A momentum it's a kind of "trick" to avoid being stuck into local minimum during solution hyperspace exploration by gradient descent using the previous "velocity" to jump oustide local minima. See [here](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Momentum) for more clear explanation ;)
 
 - **wd (weight decay):** : It regularization trick to add a penalty to the network weights at a given regularization rate (wd). More informations [here](https://en.wikipedia.org/wiki/Convolutional_neural_network#Weight_decay)
 
 >**Play Time !**
->if you want to relax a little bit, you can use this amazing website coded by Google which gives you the opportunity to play with a lot of neural network parameters and architecture and see directly their impatc on the training process, a must-see ! [here]>(http://playground.tensorflow.org/)
+>if you want to relax a little bit, you can use this amazing website coded by Google which gives you the opportunity to play with a lot of neural network hyperparameters and architecture and see directly their impact on the training process, a must-see [here](http://playground.tensorflow.org/)
 
 
-OK Now you know a little bit more about the main training parameters you can play with, let's go !!
-
+OK Now you know a little bit more about the main training hyperparameters you can play with, let's go !!
+<br>
+Let's define a first set of hyperparameters:
  ```R
  num_round = 100 # Number of epochs
  batch_size = 60 # the size of the mini-batch
  learning_rate = 0.01
  momentum = 0.9
  wd = 0.00001
- initializer = mx.init.normal(0.1) #I choose to initialize with this arbitrary value because ... i don't know .. why not ? :)
-  ```
-We then need to setup one final thing and everything will be ready for the training :)
+```
+Last, we need to define the **seed** which will be used for generating the mini_batch order, the network weights ... The seed is a number which will be used by the R random generator.
+If you want to keep reproductibility of your results, you should keep the same seed each time.
 
 ```R
-devices <- lapply(1:5,function(i){mx.cpu(i)})
-mx.set.seed(0)
+  mx.set.seed(0)
 ```
-The first line refers to the number of CPUs we want to use in parallel to train our network.
-**Each __mini-batch__ will be distributed accross the number of CPU you allow for training. So that the number of CPUs should never be smaller than the number of __mini-batch__ . In our case, we choose 5 CPUs, so the __mini-batch__ will be use for training the network accross 5 different CPUs.**
 
-The second line is for reproductibility of result.
+And then proceed to the weight initialization
 
-Let's train our network !
+ ```R
+  initializer = mx.init.normal(0.1) #I choose to initialize with this arbitrary value because ... i don't know .. why not ? :)
+  ```
+We then need to setup one final thing and everything will be ready for the training: <br>
+The number of CPU you want to use !<br>
+If you don't know how many CPU you have on your computer let <code>nCPU=1</code> in the code below, otherwise feel free to change this value.<br>
+```R
+nCPU = 1 # the number of CPU assigned to the training
+devices <- lapply(1:nCPU,function(i){mx.cpu(i)})
+```
+**Each __mini-batch__ will be distributed accross the number of CPU you allow for training. So that the number of CPUs should never be smaller than the number of __mini-batch__ .**
+<br>
+
+Let's train our network ! :)
 
 ## Training
 
-First let's declare a logger which will help us tracking the performance of our model on training and validation set.
+First let's declare a logger which will help us monitor the performance of our model on training and validation set.<br>
+We need this because we want to have a visual report on the way our model trains and learn, and we want to be able to detect for examples
+whether the model overfits.
+
+
 ```R
 logger <- mmx.addLogger(); #Let's declare a logger to log at each epoch the performance of our model
 ```
@@ -342,7 +389,7 @@ Which gives :
 model <- mx.model.FeedForward.create(
                                       net,
                                       X =   mydata$train$array,
-                                      Y =   mydata$train$labels,
+                                      y =   mydata$train$labels,
                                       ctx = devices,
                                       num.round = num_round,
                                       initializer = initializer,
@@ -490,7 +537,7 @@ After tuning the network, the parameters, the sets without major accuracy improv
 
 Let's try Data Augmentation on our dataset:
 
-**Important** : As we don't want to bias the results on Validation, we must do the data augmentation ONLY on the training set
+<b>Important</b> : As we don't want to bias the results on Validation, we must do the data augmentation ONLY on the training set
 
 First we need to load a new library which will help us to play with the data
 ```R
