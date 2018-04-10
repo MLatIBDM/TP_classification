@@ -545,13 +545,57 @@ path_to_images = list(
 
 ```
 
-> #### Let's play a bit with learning parameters and Network architecure
-> OK now, i let you play a little bit with the learning parameters and network architecture to try to improve your numbers and achieve a better accuracy on both Validation and Test set.<br>
-> Try everyting you want: increase/decrease learning size, batch_size, epochs, weight_decay, momentum ...<br>
-> Add/remove layers, add/remove more neurons ... <br>
-> Change the Trainin/Validation/Test proportions ... <br>
-> Increase/decrease the image size ... <br>
-> So in some word: have fun, maybe you can crash your virtual machine, but try to improve and understand why ! :)<br>
+ **Let's play a bit with learning parameters, Network architecure and Optimizer**
+ I let you play a little bit with the learning parameters and network architecture to try to improve your numbers and achieve a better accuracy on both Validation and Test set.<br>
+ Try everyting you want: increase/decrease learning size, batch_size, epochs, weight_decay, momentum ...<br>
+ Add/remove layers, add/remove more neurons ... <br>
+ Change the Trainin/Validation/Test proportions ... <br>
+ Increase/decrease the image size ... <br>
+
+You can also play with **Optimizer** and check which one performs the best on your data. <br>
+By default, we use **SGD (Stochastic Gradient Descent)** optimizer, and sometimes switching to one optimize to another could improve the validation accuracy.<br>
+If you want to use another one: Adam or RMSProp just change the Training part like this:
+<br>
+``` R
+#For Adam Optimizer, just delete the <em>momentum<em> parameter and play with learning rate
+model <- mx.model.FeedForward.create(
+                                net,
+                                X =   mydata$train$array,
+                                y =   mydata$train$labels,
+                                ctx = devices,
+                                num.round = num_round,
+                                initializer = initializer,
+                                array.batch.size = batch_size,
+                                learning.rate = learning_rate,
+                                wd = wd,
+                                eval.metric = mx.metric.accuracy,
+                                eval.data = list(data=mydata$valid$array, label=mydata$valid$labels),
+                                epoch.end.callback = mx.callback.log.train.metric(10,logger),
+                                optimizer="adam"
+                                )
+```
+```R
+#For RMSProp Optimizer, just delete the <em>momentum<em> parameter, and play with learning rate
+model <- mx.model.FeedForward.create(
+                                net,
+                                X =   mydata$train$array,
+                                y =   mydata$train$labels,
+                                ctx = devices,
+                                num.round = num_round,
+                                initializer = initializer,
+                                array.batch.size = batch_size,
+                                learning.rate = learning_rate,
+                                wd = wd,
+                                eval.metric = mx.metric.accuracy,
+                                eval.data = list(data=mydata$valid$array, label=mydata$valid$labels),
+                                epoch.end.callback = mx.callback.log.train.metric(10,logger),
+                                optimizer="rmsprop"
+                                )
+```
+Hint: RMSProp works well with really small learning rates (in comparison to SGD)
+
+Have fun ! You can crash the machine, it's a virtual one :) !
+
 
 # Data Augmentation
 
