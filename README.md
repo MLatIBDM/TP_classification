@@ -606,7 +606,6 @@ model <- mx.model.FeedForward.create(
                                 num.round = num_round,
                                 initializer = initializer,
                                 array.batch.size = batch_size,
-                                learning.rate = learning_rate,
                                 wd = wd,
                                 eval.metric = mx.metric.accuracy,
                                 eval.data = list(data=mydata$valid$array, label=mydata$valid$labels),
