@@ -554,8 +554,9 @@ path_to_images = list(
 
 You can also play with **Optimizer** and check which one performs the best on your data. <br>
 By default, we use **SGD (Stochastic Gradient Descent)** optimizer, and sometimes switching to one optimize to another could improve the validation accuracy.<br>
-If you want to use another one: Adam or RMSProp just change the Training part like this:
+If you want to use another one: Adam ,RMSProp, Adagrad or Adadelta, just change the Training part like this:
 <br>
+**<em>Adam</em>**
 ``` R
 #For Adam Optimizer, just delete the <em>momentum<em> parameter and play with learning rate
 model <- mx.model.FeedForward.create(
@@ -574,6 +575,48 @@ model <- mx.model.FeedForward.create(
                                 optimizer="adam"
                                 )
 ```
+**<em>Adagrad</em>**
+``` R
+#For Adam Optimizer, just delete the <em>momentum<em> parameter and play with learning rate
+model <- mx.model.FeedForward.create(
+                                net,
+                                X =   mydata$train$array,
+                                y =   mydata$train$labels,
+                                ctx = devices,
+                                num.round = num_round,
+                                initializer = initializer,
+                                array.batch.size = batch_size,
+                                learning.rate = learning_rate,
+                                wd = wd,
+                                eval.metric = mx.metric.accuracy,
+                                eval.data = list(data=mydata$valid$array, label=mydata$valid$labels),
+                                epoch.end.callback = mx.callback.log.train.metric(10,logger),
+                                optimizer="adagrad"
+                                )
+```
+**<em>Adadelta</em>**
+``` R
+#For Adam Optimizer, just delete the <em>momentum<em> parameter and learning rate.
+# You need to add two new hyperperameters: "rho" and "epsilon"
+model <- mx.model.FeedForward.create(
+                                net,
+                                X =   mydata$train$array,
+                                y =   mydata$train$labels,
+                                ctx = devices,
+                                num.round = num_round,
+                                initializer = initializer,
+                                array.batch.size = batch_size,
+                                learning.rate = learning_rate,
+                                wd = wd,
+                                eval.metric = mx.metric.accuracy,
+                                eval.data = list(data=mydata$valid$array, label=mydata$valid$labels),
+                                epoch.end.callback = mx.callback.log.train.metric(10,logger),
+                                optimizer="adadelta",
+                                rho="0.9",
+                                epsilon=1e-04
+                                )
+```
+**<em>RMSProp</em>**
 ```R
 #For RMSProp Optimizer, just delete the <em>momentum<em> parameter, and play with learning rate
 model <- mx.model.FeedForward.create(
