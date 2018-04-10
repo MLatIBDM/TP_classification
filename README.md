@@ -5,14 +5,34 @@ Welcome to the Machine Learning practical course !
 # Setup your working environment
 ## Import Virtual box prebuilt Ubuntu 16-04 machine and Start Rstudio !
 
-For those who don't have already downloaded Virtual box, please download :<br>
-- [Virtual box]("https://www.virtualbox.org/")
-- Activate Virtualization into the BIOS (in case it's not already done)
-- Download the virtual machine from [here]() or get it with USB key into the classroom
-- Import the virtual machine into Virtual box (RAM ? Disk space ? ...)
-- Start the machine (login::password / mxnet::mxnet)
+Ask the External hard drive !
+To do this practical course, you'll need both to install Virtual Box and the prebuilt MXNet Linux machine.
 
-The machine comes with R, Rstudio and MXNet already installed and properly configured to work with R.
+**Install**<br>
+
+- Install Virtual Box: Go to Directory **TP_Century**, and **Virtual Box**. Choose your executable file according to you operating system and install it.
+- Copy the **Virtual Machine** on your computer (you need around 15Go of free space)
+- Once **Virtual Box** is installed, launch it.
+
+**Import the machine**<br>
+Create a new empty virtual machine:
+- Click on the **New** button on top left.
+- Enter a name of your machine.
+- Choose type: **Linux**
+- Choose version: **Ubuntu 64-bit**
+- Choose the amount of RAM dedicated to your machine: Set at least **4Go** (ideally 8Go if you have enough RAM free on your computer) and click **Next** button.
+- Choose "Use an existing Virtual hard drive" (last option)
+- Click on the most left "folder button". Go to the directory into which you have copied the Virtual Machine, and click on the file "MXNET_build.vdi".
+
+Once this is done, you go back on the Machine Menu and just click on **Start** button to launch the virtual machine !
+
+- Log into the machine **login**: mxnet, and **password**: mxnet
+
+Now you are on the desktop, just launch a Terminal by left click on the desktop and choose "Open Terminal".
+<br>
+You are now ready to start :)
+<br>
+The machine comes with R, Rstudio and MXNet (CPU version) already installed and properly configured to work with R.
 Sublime text editor is also set up in case to edit and code needed scripts for this practical course.
 
 # MXNet Framework
@@ -921,7 +941,7 @@ Ok now, we have clean dataset, we need to work now a bit on GoogleLenet model.
 ### GoogleLenet model
 
 First we have to load the pretrained model, I've already download into your virtual machine.
-We hage 2 files:
+We have 2 files:
 - <code>Inception_BN-0039.params</code> which contains the pretrained networks weights
 - <code>Inception_BN-symbol.json</code> which contains the architecture of the network (its topology)
 <br>
@@ -989,6 +1009,7 @@ Let's define it:
 and now let's redefine the hyperparameters:
 
 ```R
+mx.set.seed(0)
 num_round = 100 # Number of epochs
 batch_size = 60 # the size of the mini-batch
 learning_rate = 0.01
