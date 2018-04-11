@@ -5,19 +5,19 @@ Welcome to the Machine Learning practical course !
 This practical course is a Tutorial-like on how to build and test programmatically several kind of network topologies,
 machine learning technics, in order to produce at the end a very robust machine learning performing on a classification task.
 
-  1. Setup your work environment
-  2. Data :
-    1. Load, Import, Normalize and Visualize
-    2. Divide your data into Train/Validation/Test set
-  3. Network model architecture : Multilayer Perceptron
-    1. Train a neural networks (Hyperparameters, Optimizers)
-    2. Monitor the results
-  4. Data augmentation
-  5. Network model architecture: Convolutional Network
-    1. Simple LeNet5 network topology
-    2. Monitor the internals of a convolutional network
-    3. Batch Normalization trick
-  6. Transfer Learning
+1. Setup your work environment
+2. Data :
+  1. Load, Import, Normalize and Visualize
+  2. Divide your data into Train/Validation/Test set
+3. Network model architecture : Multilayer Perceptron
+  1. Train a neural networks (Hyperparameters, Optimizers)
+  2. Monitor the results
+4. Data augmentation
+5. Network model architecture: Convolutional Network
+  1. Simple LeNet5 network topology
+  2. Monitor the internals of a convolutional network
+  3. Batch Normalization trick
+6. Transfer Learning
 
 
 # Setup your working environment [setupenv](#setupenv)
