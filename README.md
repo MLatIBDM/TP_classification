@@ -7,7 +7,7 @@ machine learning technics, in order to produce at the end a very robust machine 
 
 1. Setup your work environment
 2. Data :
-  1. Load, Import, Normalize and Visualize
+  1.1. Load, Import, Normalize and Visualize
   2. Divide your data into Train/Validation/Test set
 3. Network model architecture : Multilayer Perceptron
   1. Train a neural networks (Hyperparameters, Optimizers)
@@ -20,7 +20,7 @@ machine learning technics, in order to produce at the end a very robust machine 
 6. Transfer Learning
 
 
-# Setup your working environment [setupenv](#setupenv)
+# Setup your working environment
 ## Import Virtual box prebuilt Ubuntu 16-04 machine and Start Rstudio !
 
 Ask the External hard drive !
@@ -60,7 +60,7 @@ You'll find more information on the framework API [here](https://mxnet.incubator
 or visiting their [Github repository](https://github.com/apache/incubator-mxnet)
 or by playing with their [tutorials](https://mxnet.incubator.apache.org/tutorials/r/index.html)
 
-# Let's Start: Data ! [data](#data)
+# Let's Start: Data !
 
 **Aim** : Build and Train a classification model which will learn to discriminate a set of bacteria images into four different categories.
 
