@@ -8,8 +8,8 @@ machine learning technics, in order to produce at the end a very robust machine 
 1. Setup your work environment
 
 2. Data :
-  * Load, Import, Normalize and Visualize
-  * Divide your data into Train/Validation/Test set
+  i. Load, Import, Normalize and Visualize
+  ii. Divide your data into Train/Validation/Test set
 
 3. Network model architecture : Multilayer Perceptron
   * Train a neural networks (Hyperparameters, Optimizers)
