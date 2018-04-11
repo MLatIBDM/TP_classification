@@ -455,6 +455,8 @@ In case here is the complete code:
 # --- Load the libraries we'll need
 library(mxnet)
 library(imager)
+libary(rgdal)
+library(raster)
 
 # --- Set the source path and functions we need
 source_path = '/home/mxnet/TP/'
@@ -503,17 +505,20 @@ path_to_images = list(
 
     # --- Training parameters
 
-      mx.set.seed(0)
 
       num_round = 100 # Number of epochs
       batch_size = 60 # the size of the mini-batch
       learning_rate = 0.01
       momentum = 0.9
       wd = 0.00001
+
+      mx.set.seed(0)
+
       initializer = mx.init.normal(0.1)
 
     # --- Training context
-      devices <- lapply(1:5,function(i){mx.cpu(i)})
+      nCPU = 1
+      devices <- lapply(1:nCPU,function(i){mx.cpu(i)})
 
     # Training
       logger <- mmx.addLogger(); #Let's declare a logger to log at each epoch the performance of our model
@@ -544,6 +549,58 @@ path_to_images = list(
 
 
 ```
+**Let's check the failing cases !**
+<br>
+
+```R
+#On validation set
+predicted_probabilities <- predict(model,mydata$valid$array)
+```
+
+And type to see, for each images into the **validation** set, the probability of each of our 4 classes.
+
+```R
+predicted_probabilities
+# You can check the class probabilities of the first validation image:
+predicted_probabilities[,1]
+```
+Now we need to find, for each of the images, the class which have the maximum probability.
+
+```R
+predicted_label = max.col(t(predicted_probabilities))-1
+#We put "-1" because the maximum give the position of the class having maximum probability starting from 1 to 4.
+#But our labels are ranging from 0 to 3.
+```
+OK, now we have stored into <code>predicted_label</code> the predicted label for each validation images.<br>
+We need now to compare to the expected labels to see which are the images which are failing to be well classified.<br>
+
+First, we can display a [**confusion matrix**](https://en.wikipedia.org/wiki/Confusion_matrix):
+
+```R
+table(predicted_label,mydata$valid$labels)
+```
+
+We can retrieve the images (by their indices) which fails :
+
+```R
+failing_images = which( predicted_label != mydata$valid$labels )
+```
+
+and display the failing images to see what's wrong:
+
+```R
+#Example the first image which fails
+img = mydata$valid$array[,,,failing_images[1]]
+plot(as.cimg(img))
+
+#Display the predicted label
+predicted_label[failing_images[1]]
+
+#Display the correct label
+mydata$valid$labels[failing_images[1]]
+
+```
+
 
  **Let's play a bit with learning parameters, Network architecure and Optimizer**
  I let you play a little bit with the learning parameters and network architecture to try to improve your numbers and achieve a better accuracy on both Validation and Test set.<br>
