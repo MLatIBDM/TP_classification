@@ -5,8 +5,8 @@ Welcome to the Machine Learning practical course !
 This practical course is a Tutorial-like on how to build and test programmatically several kind of network topologies,
 machine learning technics, in order to produce at the end a very robust machine learning performing on a classification task.
 
-  1. <a name="setupenv"> Setup your work environment </a>
-  2. <a name="data">Data :</a>
+  1. Setup your work environment
+  2. Data :
     1. Load, Import, Normalize and Visualize
     2. Divide your data into Train/Validation/Test set
   3. Network model architecture : Multilayer Perceptron
