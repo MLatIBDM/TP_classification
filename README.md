@@ -552,15 +552,21 @@ path_to_images = list(
 **Let's check the failing cases !**
 <br>
 
+It could be interesting to see which images are failing to be well classified.
+To do so, we need to first predict, for each images into the **validation** set their corresponding
+predicted class probabilities by our **model**.
+
 ```R
-#On validation set
+#On validation set, we do this by one line
 predicted_probabilities <- predict(model,mydata$valid$array)
 ```
 
-And type to see, for each images into the **validation** set, the probability of each of our 4 classes.
+For each images into the **validation** set, you can see this 4 class probalities like this:
 
 ```R
+#Display the 4 class probabilities
 predicted_probabilities
+
 # You can check the class probabilities of the first validation image:
 predicted_probabilities[,1]
 ```
@@ -568,8 +574,8 @@ Now we need to find, for each of the images, the class which have the maximum pr
 
 ```R
 predicted_label = max.col(t(predicted_probabilities))-1
-#We put "-1" because the maximum give the position of the class having maximum probability starting from 1 to 4.
-#But our labels are ranging from 0 to 3.
+#We put "-1" because the maximum give the position of the class having maximum
+#probability starting from 1 to 4. But our labels are ranging from 0 to 3.
 ```
 OK, now we have stored into <code>predicted_label</code> the predicted label for each validation images.<br>
 We need now to compare to the expected labels to see which are the images which are failing to be well classified.<br>
