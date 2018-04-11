@@ -1204,6 +1204,6 @@ we needed to increase their size too much. By doing this, we needed some image i
 It was just a proof of concept of how **transfert learning** works and how to use it for our purpose :)
 
 <br>
-# Useful Links
+### Useful Links
 
 To finish this practical course, i give you some useful links that helped me assimilating what's behind deep learning, machine learning and artificial intelligence.<br>
