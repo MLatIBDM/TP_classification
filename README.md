@@ -1202,9 +1202,3 @@ model <- mx.model.FeedForward.create(
 As you can see, the accuracy doesn't seem to improve greatly at first try. According to me, the original image size doesn't fit well with this kind of network because
 we needed to increase their size too much. By doing this, we needed some image interpolation and we probably lost much useful information and introduced too much noise into the images.<br>
 It was just a proof of concept of how **transfert learning** works and how to use it for our purpose :)
-
-<br>
-
-### Useful Links
-
-To finish this practical course, i give you some useful links that helped me assimilating what's behind deep learning, machine learning and artificial intelligence.<br>
