@@ -1010,7 +1010,7 @@ This is the goal of your convolution kernels: detect some specific parts, which 
 OK, let's go back to our aim: increase accuracy ! <br>
 We probably can achieve a slightly better score using a trick called Batch Normalization !
 
-** Batch Normalization
+**Batch Normalization**
 Batch Normalization is a technique which will help you Normalize your batch ... really ... lol ... but how ?<br>
 We know that normalization (Z-score normalization : zero-mean and unit variance) is often used when we pre-process images to make data comparable.
 But as the data flows through your network, the weights adjusts those values and sometime "denormalize" the data.
