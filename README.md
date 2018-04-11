@@ -209,6 +209,8 @@ mydata$labels
 
 ### Split Data into Training/Validation/Test set
 
+![trainvalid](https://github.com/MLatIBDM/TP_classification/blob/master/images/trainvalid.png)
+
 This step is essential to be sure your model is learning well and able to generalize.
 We have to split our data into 3 distinct non overlapping set.
  - One which will be use for **Training** our model, we call it **Trainin Set**.
