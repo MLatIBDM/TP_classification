@@ -970,33 +970,48 @@ names(model$arg.params)
 #into an array.
 first_conv = as.array(model$arg.params$convolution0_weight)
 
-#Let's plot for example the shape of the first convolutional filter of the first convolutional layer
-plot(as.cimg(first_conv[,,,1]))
+#Let's plot all the shape of the first convolutional layer
+par(mfrow=c(2,3))
+for (i in 1:dim(first_conv)[4]){
+  plot(as.cimg(first_conv[,,,i]))
+}
+
+
 ```
-This is what the first convolution kernel of the first convolution layer looks like. <br>
+This is what the convolution kernels of the first convolution layer looks like. <br>
 Now why don't checking what the network really see ? <br>
-To do so, we are going to do the **convolution product** between an image and this first convolution first convolution filter <br>
+To do so, we are going to do the **convolution product** between an image and all the first convolution layer kernels <br>
 
 ```R
-#Let's take for example the second image of our training dataset
-c1 = convolve ( as.cimg(mydata$train$array[,,,2]) , as.cimg(first_conv[,,,1]) , dirichlet=T)
-plot(c1)
+
+#Let's take for example the second image of our training dataset and make the convolution product
+c1 = convolve ( as.cimg(mydata$train$array[,,,2]) , first_conv )
+
+#Convert the convolution result inot an array
+array_c1 = as.array(c1)
+
+#Let's plot it !
+par(mfrow=c(2,3))
+for ( i in 1:dim(array_c1)[4]){
+  plot(as.cimg(array_c1[,,,i]))
+}
+
 ```
-This is what your network really sees, try other filters of the first convolutional layer by replacing <code>first_conv[,,,1]</code> by
-<code>first_conv[,,,2]</code>, or <code>first_conv[,,,3]</code> ...
-<br>
+This is what your network is really seeing ! <br>
 
 Then, let's simulate the <code>Relu</code> activation function:
 
 ```R
 #Convert of convolution result image into an array
-array_c1 = as.array(c1)
 
 #Check the negative pixels and put them to 0 value (Relu activation)
-ac1[which(ac1<0)]=0
+array_c1[which(array_c1<0)]=0
 
 #plot the result
-plot(as.cimg(ac1))
+par(mfrow=c(2,3))
+for ( i in 1:dim(array_c1)[4]){
+  plot(as.cimg(array_c1[,,,i]))
+}
 
 ```
 
@@ -1011,6 +1026,7 @@ OK, let's go back to our aim: increase accuracy ! <br>
 We probably can achieve a slightly better score using a trick called Batch Normalization !
 
 **Batch Normalization**
+<br>
 Batch Normalization is a technique which will help you Normalize your batch ... really ... lol ... but how ?<br>
 We know that normalization (Z-score normalization : zero-mean and unit variance) is often used when we pre-process images to make data comparable.
 But as the data flows through your network, the weights adjusts those values and sometime "denormalize" the data.
@@ -1097,7 +1113,7 @@ Do you see an improvment ?
 
 From my part, yes i achieved a slightly better accuracy: **99% on training set** and aournd **94/95% on validation set** : Great !
 
-I let you play a bit with hyperparameters, network architecture ... and try to get better accuracy !
+I let you play a bit with hyperparameters, network architecture, optimize ... and why not trying to get better accuracy !
 
 
 # Transfer Learning
