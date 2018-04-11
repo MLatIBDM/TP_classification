@@ -14,19 +14,18 @@ machine learning technics, in order to produce at the end a very robust machine 
    - Monitor the results
 4. Data augmentation
 5. Network model architecture: Convolutional Network
-   - Simple LeNet5 network topology
-   - Monitor the internals of a convolutional network
+   - LeNet5 network topology
+   - Look into the internals of a convolutional network
    - Batch Normalization trick
 6. Transfer Learning
 
 
 # Setup your working environment
-## Import Virtual box prebuilt Ubuntu 16-04 machine and Start Rstudio !
 
-Ask the External hard drive !
+**Ask the External hard drive to get the virtual machine!**
 To do this practical course, you'll need both to install Virtual Box and the prebuilt MXNet Linux machine.
 
-**Install**<br>
+**Install Virtual Box**<br>
 
 - Install Virtual Box: Go to Directory **TP_Century**, and **Virtual Box**. Choose your executable file according to you operating system and install it.
 - Copy the **Virtual Machine** on your computer (you need around 15Go of free space)
@@ -53,16 +52,19 @@ You are now ready to start :)
 The machine comes with R, Rstudio and MXNet (CPU version) already installed and properly configured to work with R.
 Sublime text editor is also set up in case to edit and code needed scripts for this practical course.
 
-# MXNet Framework
-
-  MXNet is one of the most popular Deep Learning framework. It's available into different programming languages (R, Pyhton, ...) and can handle both working with CPU and GPU.
+__On MXNet__ <br>
+MXNet is one of the most popular Deep Learning framework. It's available into different programming languages (R, Pyhton, ...) and can handle both working with CPU and GPU.
 You'll find more information on the framework API [here](https://mxnet.incubator.apache.org/api/r/index.html)
 or visiting their [Github repository](https://github.com/apache/incubator-mxnet)
 or by playing with their [tutorials](https://mxnet.incubator.apache.org/tutorials/r/index.html)
 
 # Let's Start: Data !
 
-**Aim** : Build and Train a classification model which will learn to discriminate a set of bacteria images into four different categories.
+**Aim** : Build and Train a classification model which will learn to discriminate a set of bacteria images into four different categories:
+- 1-cell (One bacterium)
+- 2-cell (Two bacteria)
+- Groups of Bacteria (more than 2)
+- Not a bacteria
 
 ### Load, explore, reshape, normalize resample and format the Data for Training !
 ![Panel](https://github.com/MLatIBDM/TP_classification/blob/master/images/panel.jpg)
@@ -288,7 +290,7 @@ You can see that the data could be positive or negative because of the Z-score n
 
  But ... before training the model, we need to design the **Network model architecture** !
 
- # Network model architecture
+ # Network model architecture : Multilayer Perceptron
 
  First, we are going to use a classical [**Multi-Layer Perceptron**](https://en.wikipedia.org/wiki/Multilayer_perceptron).
  network architecture for our model.
