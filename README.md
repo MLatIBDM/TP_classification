@@ -2,7 +2,25 @@
 
 Welcome to the Machine Learning practical course !
 
-# Setup your working environment
+This practical course is a Tutorial-like on how to build and test programmatically several kind of network topologies,
+machine learning technics, in order to produce at the end a very robust machine learning performing on a classification task.
+
+  1. <a name="setupenv"> Setup your work environment </a>
+  2. <a name="data">Data :</a>
+    1. Load, Import, Normalize and Visualize
+    2. Divide your data into Train/Validation/Test set
+  3. Network model architecture : Multilayer Perceptron
+    1. Train a neural networks (Hyperparameters, Optimizers)
+    2. Monitor the results
+  4. Data augmentation
+  5. Network model architecture: Convolutional Network
+    1. Simple LeNet5 network topology
+    2. Monitor the internals of a convolutional network
+    3. Batch Normalization trick
+  6. Transfer Learning
+
+
+# Setup your working environment [setupenv](#setupenv)
 ## Import Virtual box prebuilt Ubuntu 16-04 machine and Start Rstudio !
 
 Ask the External hard drive !
@@ -42,7 +60,7 @@ You'll find more information on the framework API [here](https://mxnet.incubator
 or visiting their [Github repository](https://github.com/apache/incubator-mxnet)
 or by playing with their [tutorials](https://mxnet.incubator.apache.org/tutorials/r/index.html)
 
-# Let's Start: Data !
+# Let's Start: Data ! [data](#data)
 
 **Aim** : Build and Train a classification model which will learn to discriminate a set of bacteria images into four different categories.
 
@@ -511,9 +529,7 @@ path_to_images = list(
       learning_rate = 0.01
       momentum = 0.9
       wd = 0.00001
-
       mx.set.seed(0)
-
       initializer = mx.init.normal(0.1)
 
     # --- Training context
@@ -766,11 +782,13 @@ Now let's redo the training one more time using our Augmented training Set:
       learning_rate = 0.01
       momentum = 0.9
       wd = 0.00001
+      mx.set.seed(0)
       initializer = mx.init.normal(0.1)
 
     # --- Training context
-      devices <- lapply(1:5,function(i){mx.cpu(i)})
-      mx.set.seed(0)
+      nCPU=1
+      devices <- lapply(1:nCPU,function(i){mx.cpu(i)})
+
 
     # Training
       logger <- mmx.addLogger(); #Let's declare a logger to log at each epoch the performance of our model
@@ -915,11 +933,13 @@ If everyting is ok, we are ready to test this new network toplogy :)
      learning_rate = 0.01
      momentum = 0.9
      wd = 0.00001
+     mx.set.seed(0)
      initializer = mx.init.normal(0.1)
 
    # --- Training context
-     devices <- lapply(1:5,function(i){mx.cpu(i)})
-     mx.set.seed(0)
+     nCPU=1
+     devices <- lapply(1:nCPU,function(i){mx.cpu(i)})
+
 
    # Training
      logger <- mmx.addLogger(); #Let's declare a logger to log at each epoch the performance of our model
@@ -987,7 +1007,7 @@ To do so, we are going to do the **convolution product** between an image and al
 #Let's take for example the second image of our training dataset and make the convolution product
 c1 = convolve ( as.cimg(mydata$train$array[,,,2]) , first_conv )
 
-#Convert the convolution result inot an array
+#Convert the convolution result into an array
 array_c1 = as.array(c1)
 
 #Let's plot it !
@@ -1002,8 +1022,6 @@ This is what your network is really seeing ! <br>
 Then, let's simulate the <code>Relu</code> activation function:
 
 ```R
-#Convert of convolution result image into an array
-
 #Check the negative pixels and put them to 0 value (Relu activation)
 array_c1[which(array_c1<0)]=0
 
@@ -1074,11 +1092,12 @@ and restart the training :  <br>
      learning_rate = 0.01
      momentum = 0.9
      wd = 0.00001
+     mx.set.seed(0)
      initializer = mx.init.normal(0.1)
 
    # --- Training context
-     devices <- lapply(1:5,function(i){mx.cpu(i)})
-     mx.set.seed(0)
+     nCPU=1
+     devices <- lapply(1:nCPU,function(i){mx.cpu(i)})
 
    # Training
      logger <- mmx.addLogger(); #Let's declare a logger to log at each epoch the performance of our model
