@@ -834,9 +834,6 @@ We need a network topology which can achieve better prediction by taking into ac
 # Convolutional Neural Network
 
 Yes ! Convolutional could help us building a more accurate prediction program for our classification task.
-
-![dcn](https://github.com/MLatIBDM/TP_classification/blob/master/images/dcn.png)
-
 To do so, we need to setup a new network structure. I chose to let you play with the <em>original</em> version of Convolutional architecture called **LeNet5** published in 1998 by Yann Lecun & al. ([PDF](http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf))
 <br>
 <br>
