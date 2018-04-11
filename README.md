@@ -956,7 +956,59 @@ On my computer, i can achieve **97% on training set** and between **91/93% on va
 <br>
 So by just switching from an architecture to another, we increased the accuracy in a postive way !
 <br>
-But we can achieve a slightly better score using a trick: Batch Normalization !
+
+**And what if we inspect the convolutional layers internals ?** <br>
+
+First let's explore the internals of our model.<br>
+All the model weights are stored into the model$arg.params structure:
+
+```R
+#Retrieve the names of the layers
+names(model$arg.params)
+
+#Choose the first convolutional layer called: convolution0_weight, and convert it
+#into an array.
+first_conv = as.array(model$arg.params$convolution0_weight)
+
+#Let's plot for example the shape of the first convolutional filter of the first convolutional layer
+plot(as.cimg(first_conv[,,,1]))
+```
+This is what the first convolution kernel of the first convolution layer looks like. <br>
+Now why don't checking what the network really see ? <br>
+To do so, we are going to do the **convolution product** between an image and this first convolution first convolution filter <br>
+
+```R
+#Let's take for example the second image of our training dataset
+c1 = convolve ( as.cimg(mydata$train$array[,,,2]) , as.cimg(first_conv[,,,1]) , dirichlet=T)
+plot(c1)
+```
+This is what your network really sees, try other filters of the first convolutional layer by replacing <code>first_conv[,,,1]</code> by
+<code>first_conv[,,,2]</code>, or <code>first_conv[,,,3]</code> ...
+<br>
+
+Then, let's simulate the <code>Relu</code> activation function:
+
+```R
+#Convert of convolution result image into an array
+array_c1 = as.array(c1)
+
+#Check the negative pixels and put them to 0 value (Relu activation)
+ac1[which(ac1<0)]=0
+
+#plot the result
+plot(as.cimg(ac1))
+
+```
+
+You notice that each convolutional kernel has got a specific role into the detection of some part of your image: some are detecting edges, some the bacteria, some the background ...
+<br>
+This is the goal of your convolution kernels: detect some specific parts, which will be further combined together to produce your classification prediction.
+
+<br>
+<br>
+
+OK, let's go back to our aim: increase accuracy ! <br>
+We probably can achieve a slightly better score using a trick called Batch Normalization !
 
 ** Batch Normalization
 Batch Normalization is a technique which will help you Normalize your batch ... really ... lol ... but how ?<br>
@@ -1048,19 +1100,19 @@ From my part, yes i achieved a slightly better accuracy: **99% on training set**
 I let you play a bit with hyperparameters, network architecture ... and try to get better accuracy !
 
 
-# Transfert Learning
+# Transfer Learning
 
-How to convert a <em>"Cat & Dog"</em> model into a really powerful model able to classify our bacteria accurately ? **Transfert Learning** <br>
+How to convert a <em>"Cat & Dog"</em> model into a really powerful model able to classify our bacteria accurately ? **Transfer Learning** <br>
 <br>
-What is transfert Learning ?
+What is transfer Learning ?
 ![tl](https://github.com/MLatIBDM/TP_classification/blob/master/images/tl.png)
-Transfert Learning allow us to convert an already trained model for a specific classification task into another model dedicated to another classification task. <br>
+Transfer Learning allow us to convert an already trained model for a specific classification task into another model dedicated to another classification task. <br>
 It exists several already pretrained model on plenty of different classification task, and for the purpose of this practical course, we will use **GoogleLenet - Inception BN** model.<br>
-This model, created by **Google** has been train on millions of images, depicting cars, plane, fruits, animals ... from **ImageNet** (databse)[http://www.image-net.org]
-GoogleLenet is a rather complex model which gather a lot of convolution layers (actually 22 convolutional layer), and use some topologies trick to improve the classification score on the Imagenet dataset. See [here](https://arxiv.org/abs/1409.4842) the original paper.
+This model, created by **Google** has been train on millions of images, depicting cars, plane, fruits, animals ... from **ImageNet** [database](http://www.image-net.org).
+GoogleLenet is a rather complex model which gather a lot of convolution layers (actually 22 convolutional layer), and use some topologies trick to improve the classification score on the **Imagenet** dataset. See [here](https://arxiv.org/abs/1409.4842) the original paper.
 <br>
 **Bad news :** As this architecture is absolutely huge in terms of memory and time consuming, it's impossible to train on such model from scratch. <br>
-**Good news:** Other guys have already trained it and we just have to transfert it to our problem by only retraining the <em>"brain"</em> part using a **Multi-layer Perceptron**, like we did at the begining of this practical course !
+**Good news:** Other guys have already trained it on **ImageNet** and we just have to transfer it to our problem by only retraining the <em>"brain"</em> part using a **Multi-layer Perceptron**, like we did at the begining of this practical course !
 <br>
 OK ! But we need a little bit of work to have a such a result, so let's start !
 <br>
@@ -1201,4 +1253,4 @@ model <- mx.model.FeedForward.create(
 
 As you can see, the accuracy doesn't seem to improve greatly at first try. According to me, the original image size doesn't fit well with this kind of network because
 we needed to increase their size too much. By doing this, we needed some image interpolation and we probably lost much useful information and introduced too much noise into the images.<br>
-It was just a proof of concept of how **transfert learning** works and how to use it for our purpose :)
+It was just a proof of concept of how **transfer learning** works and how to use it for our purpose :)
